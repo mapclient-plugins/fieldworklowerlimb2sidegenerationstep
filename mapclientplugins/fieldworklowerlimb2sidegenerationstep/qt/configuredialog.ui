@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>597</width>
+    <height>606</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Configure Lower Limb Registration Step</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="configGroupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label0">
+        <property name="text">
+         <string>identifier:  </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEdit_id"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label1">
+        <property name="text">
+         <string>Registration Mode:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboBox_regmode"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Side:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="comboBox_side"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>PCs to Fit:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="spinBox_pcsToFit">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>99</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Mahalanobis Weight:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_mWeight">
+        <property name="singleStep">
+         <double>0.100000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Landmarks:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Marker Radius:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_markerRadius"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Skin Padding:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_skinPad"/>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Knee Options:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="checkBox_kneedof">
+          <property name="text">
+           <string>Abd. DOF</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_kneecorr">
+          <property name="text">
+           <string>Abd. Correction</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>GUI:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QCheckBox" name="checkBox_GUI">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QTableWidget" name="tableWidgetLandmarks">
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>200</number>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>200</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Model Landmarks</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Target Landmarks</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="pushButton_addLandmark">
+            <property name="text">
+             <string>Add Landmark</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_removeLandmark">
+            <property name="text">
+             <string>Remove Landmark</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit_id</tabstop>
+  <tabstop>comboBox_regmode</tabstop>
+  <tabstop>comboBox_side</tabstop>
+  <tabstop>spinBox_pcsToFit</tabstop>
+  <tabstop>doubleSpinBox_mWeight</tabstop>
+  <tabstop>tableWidgetLandmarks</tabstop>
+  <tabstop>pushButton_addLandmark</tabstop>
+  <tabstop>pushButton_removeLandmark</tabstop>
+  <tabstop>doubleSpinBox_markerRadius</tabstop>
+  <tabstop>doubleSpinBox_skinPad</tabstop>
+  <tabstop>checkBox_kneedof</tabstop>
+  <tabstop>checkBox_kneecorr</tabstop>
+  <tabstop>checkBox_GUI</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>300</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>300</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>300</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>300</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
