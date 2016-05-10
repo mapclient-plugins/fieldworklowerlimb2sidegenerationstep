@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Configure Lower Limb Registration Step</string>
+   <string>Configure 2-Sided Lower Limb Registration Step</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -44,23 +44,13 @@
        <widget class="QComboBox" name="comboBox_regmode"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_14">
-        <property name="text">
-         <string>Side:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="comboBox_side"/>
-      </item>
-      <item row="3" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>PCs to Fit:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="2" column="1">
        <widget class="QSpinBox" name="spinBox_pcsToFit">
         <property name="minimum">
          <number>1</number>
@@ -70,87 +60,28 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>Mahalanobis Weight:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="3" column="1">
        <widget class="QDoubleSpinBox" name="doubleSpinBox_mWeight">
         <property name="singleStep">
          <double>0.100000000000000</double>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>Landmarks:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>Marker Radius:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_markerRadius"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Skin Padding:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_skinPad"/>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Knee Options:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QCheckBox" name="checkBox_kneedof">
-          <property name="text">
-           <string>Abd. DOF</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBox_kneecorr">
-          <property name="text">
-           <string>Abd. Correction</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>GUI:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="QCheckBox" name="checkBox_GUI">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
+      <item row="4" column="1">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QTableWidget" name="tableWidgetLandmarks">
@@ -192,6 +123,65 @@
         </item>
        </layout>
       </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Marker Radius:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_markerRadius"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Skin Padding:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_skinPad"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Knee Options:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="checkBox_kneedof">
+          <property name="text">
+           <string>Abd. DOF</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_kneecorr">
+          <property name="text">
+           <string>Abd. Correction</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>GUI:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QCheckBox" name="checkBox_GUI">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -210,7 +200,6 @@
  <tabstops>
   <tabstop>lineEdit_id</tabstop>
   <tabstop>comboBox_regmode</tabstop>
-  <tabstop>comboBox_side</tabstop>
   <tabstop>spinBox_pcsToFit</tabstop>
   <tabstop>doubleSpinBox_mWeight</tabstop>
   <tabstop>tableWidgetLandmarks</tabstop>
