@@ -113,7 +113,7 @@ class LandmarkComboBoxTable(object):
             comb.addItem(it)
         self.table.setCellWidget(row, col, comb)
 
-        if currentItem is not None:
+        if (currentItem is not None) and (currentItem!=''):
             if currentItem in items:
                 comb.setCurrentIndex(items.index(currentItem))
             else:
@@ -211,7 +211,7 @@ class LandmarkComboBoxTextTable(object):
             comb.addItem(it)
         self.table.setCellWidget(row, col, comb)
 
-        if currentItem is not None:
+        if (currentItem is not None) and (currentItem!=''):
             if currentItem in items:
                 comb.setCurrentIndex(items.index(currentItem))
             else:

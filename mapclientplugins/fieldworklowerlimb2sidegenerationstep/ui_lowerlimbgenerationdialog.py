@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/lowerlimbgenerationdialog.ui'
 #
-# Created: Tue May 10 22:47:32 2016
+# Created: Thu May 12 23:06:50 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -272,24 +272,36 @@ class Ui_Dialog(object):
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.doubleSpinBox_hiprx = QtGui.QDoubleSpinBox(self.page)
+        self.doubleSpinBox_hiprx.setMinimum(-360.0)
+        self.doubleSpinBox_hiprx.setMaximum(360.0)
         self.doubleSpinBox_hiprx.setObjectName("doubleSpinBox_hiprx")
         self.horizontalLayout_3.addWidget(self.doubleSpinBox_hiprx)
         self.doubleSpinBox_hipry = QtGui.QDoubleSpinBox(self.page)
+        self.doubleSpinBox_hipry.setMinimum(-360.0)
+        self.doubleSpinBox_hipry.setMaximum(360.0)
         self.doubleSpinBox_hipry.setObjectName("doubleSpinBox_hipry")
         self.horizontalLayout_3.addWidget(self.doubleSpinBox_hipry)
         self.doubleSpinBox_hiprz = QtGui.QDoubleSpinBox(self.page)
+        self.doubleSpinBox_hiprz.setMinimum(-360.0)
+        self.doubleSpinBox_hiprz.setMaximum(360.0)
         self.doubleSpinBox_hiprz.setObjectName("doubleSpinBox_hiprz")
         self.horizontalLayout_3.addWidget(self.doubleSpinBox_hiprz)
         self.formLayout_5.setLayout(6, QtGui.QFormLayout.FieldRole, self.horizontalLayout_3)
         self.horizontalLayout_4 = QtGui.QHBoxLayout()
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.doubleSpinBox_kneerx = QtGui.QDoubleSpinBox(self.page)
+        self.doubleSpinBox_kneerx.setMinimum(-180.0)
+        self.doubleSpinBox_kneerx.setMaximum(180.0)
         self.doubleSpinBox_kneerx.setObjectName("doubleSpinBox_kneerx")
         self.horizontalLayout_4.addWidget(self.doubleSpinBox_kneerx)
         self.doubleSpinBox_kneery = QtGui.QDoubleSpinBox(self.page)
+        self.doubleSpinBox_kneery.setMinimum(-180.0)
+        self.doubleSpinBox_kneery.setMaximum(180.0)
         self.doubleSpinBox_kneery.setObjectName("doubleSpinBox_kneery")
         self.horizontalLayout_4.addWidget(self.doubleSpinBox_kneery)
         self.doubleSpinBox_kneerz = QtGui.QDoubleSpinBox(self.page)
+        self.doubleSpinBox_kneerz.setMinimum(-180.0)
+        self.doubleSpinBox_kneerz.setMaximum(180.0)
         self.doubleSpinBox_kneerz.setObjectName("doubleSpinBox_kneerz")
         self.horizontalLayout_4.addWidget(self.doubleSpinBox_kneerz)
         self.formLayout_5.setLayout(8, QtGui.QFormLayout.FieldRole, self.horizontalLayout_4)
@@ -446,7 +458,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.widget)
 
         self.retranslateUi(Dialog)
-        self.toolBox.setCurrentIndex(0)
+        self.toolBox.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         Dialog.setTabOrder(self.tableWidget, self.tableWidgetLandmarks)
         Dialog.setTabOrder(self.tableWidgetLandmarks, self.pushButton_addLandmark)

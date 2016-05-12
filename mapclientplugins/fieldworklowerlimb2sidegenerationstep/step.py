@@ -8,7 +8,7 @@ import json
 from PySide import QtGui
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
-from mapclientplugins.fieldworklowerlimbgenerationstep.configuredialog import ConfigureDialog
+from mapclientplugins.fieldworklowerlimb2sidegenerationstep.configuredialog import ConfigureDialog
 
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep import llstep
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.lowerlimbgenerationdialog import LowerLimbGenerationDialog
@@ -107,6 +107,7 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         provides port for this step then the index can be ignored.
         '''
         if index == 1:
+            print('outputting {}'.format(self._data.outputModelDict.keys()))
             return self._data.outputModelDict
         else:
             return self._data.LL
@@ -149,7 +150,6 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         Add code to serialize this step to disk. Returns a json string for
         mapclient to serialise.
         '''
-        self._fix_legacy_config()
         return json.dumps(self._config, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def deserialize(self, string):

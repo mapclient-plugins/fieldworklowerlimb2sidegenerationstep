@@ -26,7 +26,7 @@ from PySide.QtGui import QDoubleValidator, QIntValidator
 from PySide.QtCore import Qt
 from PySide.QtCore import QThread, Signal
 
-from mapclientplugins.fieldworklowerlimbgenerationstep.ui_lowerlimbgenerationdialog import Ui_Dialog
+from mapclientplugins.fieldworklowerlimb2sidegenerationstep.ui_lowerlimbgenerationdialog import Ui_Dialog
 from traits.api import HasTraits, Instance, on_trait_change, \
     Int, Dict
 
@@ -186,44 +186,27 @@ class LowerLimbGenerationDialog(QDialog):
         self._ui.checkBox_kneecorr.setChecked(bool(self.data.kneeCorr))
         self._ui.checkBox_kneedof.setChecked(bool(self.data.kneeDOF))
 
+    def _updateNShapeModes1(self):
+        if self.data.nShapeModes<1:
+            self.data.nShapeModes = 1
+    def _updateNShapeModes2(self):
+        if self.data.nShapeModes<2:
+            self.data.nShapeModes = 2
+    def _updateNShapeModes3(self):
+        if self.data.nShapeModes<3:
+            self.data.nShapeModes = 3
+    def _updateNShapeModes4(self):
+        if self.data.nShapeModes<4:
+            self.data.nShapeModes = 4
+
     def _saveConfigs(self):
         # landmarks page
         self.data.config['landmarks'] = self.landmarkTable.getLandmarkPairs()
-        print(self.data.config['landmarks'])
         self.data.markerRadius = self._ui.doubleSpinBox_markerRadius.value()
         self.data.skinPad = self._ui.doubleSpinBox_skinPad.value()
 
         # manual reg page
-        self.data.LL._shape_mode_weights[0] = self._ui.doubleSpinBox_pc1.value()
-        self.data.LL._shape_mode_weights[1] = self._ui.doubleSpinBox_pc2.value()
-        self.data.LL._shape_mode_weights[2] = self._ui.doubleSpinBox_pc3.value()
-        self.data.LL._shape_mode_weights[3] = self._ui.doubleSpinBox_pc4.value()
-        # self.data.LL.uniformScaling = self._ui.doubleSpinBox_scaling.value()
-        self.data.LL.pelvisRigid = [self._ui.doubleSpinBox_ptx.value(),
-                                   self._ui.doubleSpinBox_pty.value(),
-                                   self._ui.doubleSpinBox_ptz.value(),
-                                   np.deg2rad(self._ui.doubleSpinBox_prx.value()),
-                                   np.deg2rad(self._ui.doubleSpinBox_pry.value()),
-                                   np.deg2rad(self._ui.doubleSpinBox_prz.value()),
-                                   ]
-        self.data.LL.hip_rot_l = [np.deg2rad(self._ui.doubleSpinBox_hiplx.value()),
-                                  np.deg2rad(self._ui.doubleSpinBox_hiply.value()),
-                                  np.deg2rad(self._ui.doubleSpinBox_hiplz.value()),
-                                  ]
-        self.data.LL.hip_rot_r = [np.deg2rad(self._ui.doubleSpinBox_hiprx.value()),
-                                  np.deg2rad(self._ui.doubleSpinBox_hipry.value()),
-                                  np.deg2rad(self._ui.doubleSpinBox_hiprz.value()),
-                                  ]
-        if self.data.kneeDOF:
-            self.data.LL.knee_rot_l = [np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),
-                                       np.deg2rad(self._ui.doubleSpinBox_kneelz.value()),
-                                       ]
-            self.data.LL.knee_rot_r = [np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),
-                                       np.deg2rad(self._ui.doubleSpinBox_kneerz.value()),
-                                       ]
-        else:
-            self.data.LL.knee_rot_l = [np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),]
-            self.data.LL.knee_rot_r = [np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),]
+        self._saveLLParams()
 
         # auto reg page
         self.data.registrationMode = str(self._ui.comboBox_regmode.currentText())
@@ -233,6 +216,59 @@ class LowerLimbGenerationDialog(QDialog):
         self.data.kneeDOF = self._ui.checkBox_kneedof.isChecked()
         self._ui.checkBox_kneecorr.setChecked(bool(self.data.kneeCorr))
         self._ui.checkBox_kneedof.setChecked(bool(self.data.kneeDOF))
+
+    def _saveLLParams(self):
+        shape_mode_weights = [
+            self._ui.doubleSpinBox_pc1.value(),
+            self._ui.doubleSpinBox_pc2.value(),
+            self._ui.doubleSpinBox_pc3.value(),
+            self._ui.doubleSpinBox_pc4.value(),
+            ]
+
+        pelvis_rigid = [
+            self._ui.doubleSpinBox_ptx.value(),
+            self._ui.doubleSpinBox_pty.value(),
+            self._ui.doubleSpinBox_ptz.value(),
+            np.deg2rad(self._ui.doubleSpinBox_prx.value()),
+            np.deg2rad(self._ui.doubleSpinBox_pry.value()),
+            np.deg2rad(self._ui.doubleSpinBox_prz.value()),
+            ]
+        
+        hip_rot_l = [
+            np.deg2rad(self._ui.doubleSpinBox_hiplx.value()),
+            np.deg2rad(self._ui.doubleSpinBox_hiply.value()),
+            np.deg2rad(self._ui.doubleSpinBox_hiplz.value()),
+            ]
+
+        hip_rot_r = [
+            np.deg2rad(self._ui.doubleSpinBox_hiprx.value()),
+            np.deg2rad(self._ui.doubleSpinBox_hipry.value()),
+            np.deg2rad(self._ui.doubleSpinBox_hiprz.value()),
+            ]     
+
+        if self.data.kneeDOF:
+            knee_rot_l = [
+                np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),
+                np.deg2rad(self._ui.doubleSpinBox_kneelz.value()),
+                ]
+            knee_rot_r = [
+                np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),
+                np.deg2rad(self._ui.doubleSpinBox_kneerz.value()),
+                ]
+        else:
+            knee_rot_l = [np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),]
+            knee_rot_r = [np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),]
+
+        self.data.LL.update_all_models(
+                                np.array(shape_mode_weights)[self.data.LL.shape_modes],
+                                self.data.LL.shape_modes,
+                                pelvis_rigid,
+                                hip_rot_l,
+                                hip_rot_r,
+                                knee_rot_l,
+                                knee_rot_r,
+                                )
+            
 
     def _makeConnections(self):
         self._ui.tableWidget.itemClicked.connect(self._tableItemClicked)
@@ -247,9 +283,13 @@ class LowerLimbGenerationDialog(QDialog):
         
         # manual reg
         self._ui.doubleSpinBox_pc1.valueChanged.connect(self._manualRegUpdate)
+        self._ui.doubleSpinBox_pc1.valueChanged.connect(self._updateNShapeModes1)
         self._ui.doubleSpinBox_pc2.valueChanged.connect(self._manualRegUpdate)
+        self._ui.doubleSpinBox_pc2.valueChanged.connect(self._updateNShapeModes2)
         self._ui.doubleSpinBox_pc3.valueChanged.connect(self._manualRegUpdate)
+        self._ui.doubleSpinBox_pc3.valueChanged.connect(self._updateNShapeModes3)
         self._ui.doubleSpinBox_pc4.valueChanged.connect(self._manualRegUpdate)
+        self._ui.doubleSpinBox_pc4.valueChanged.connect(self._updateNShapeModes4)
         # self._ui.doubleSpinBox_scaling.valueChanged.connect(self._manualRegUpdate)
         self._ui.doubleSpinBox_ptx.valueChanged.connect(self._manualRegUpdate)
         self._ui.doubleSpinBox_pty.valueChanged.connect(self._manualRegUpdate)
@@ -361,7 +401,7 @@ class LowerLimbGenerationDialog(QDialog):
     def _manualRegUpdate(self):
         if not self._lockManualRegUpdate:
             self._saveConfigs()
-            self.data.updateLLModel()
+            # self.data.updateLLModel() # LL is auto updated in _saveConfigs
             self._updateSceneModels()
 
     def _autoRegChanged(self):
