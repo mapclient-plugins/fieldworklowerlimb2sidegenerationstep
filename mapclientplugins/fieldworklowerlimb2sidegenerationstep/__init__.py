@@ -4,6 +4,8 @@ MAP Client Plugin
 '''
 __version__ = '0.1.0'
 __author__ = 'Ju Zhang'
+__stepname__ = 'Fieldwork Lower Limb 2 Side Generation'
+__location__ = 'https://github.com/mapclient-plugins/fieldworklowerlimb2sidegenerationstep/commits/master.zip'
 
 
 # import class that derives itself from the step mountpoint.
