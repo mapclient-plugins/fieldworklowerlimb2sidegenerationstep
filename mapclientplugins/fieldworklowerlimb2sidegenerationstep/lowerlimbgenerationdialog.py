@@ -218,12 +218,17 @@ class LowerLimbGenerationDialog(QDialog):
         self._ui.checkBox_kneedof.setChecked(bool(self.data.kneeDOF))
 
     def _saveLLParams(self):
-        shape_mode_weights = [
-            self._ui.doubleSpinBox_pc1.value(),
-            self._ui.doubleSpinBox_pc2.value(),
-            self._ui.doubleSpinBox_pc3.value(),
-            self._ui.doubleSpinBox_pc4.value(),
-            ]
+        shape_mode_weights = np.array(self.data.LL._shape_mode_weights)
+        shape_mode_weights[0] = self._ui.doubleSpinBox_pc1.value()
+        shape_mode_weights[1] = self._ui.doubleSpinBox_pc2.value()
+        shape_mode_weights[2] = self._ui.doubleSpinBox_pc3.value()
+        shape_mode_weights[3] = self._ui.doubleSpinBox_pc4.value()
+        # shape_mode_weights = [
+        #     self._ui.doubleSpinBox_pc1.value(),
+        #     self._ui.doubleSpinBox_pc2.value(),
+        #     self._ui.doubleSpinBox_pc3.value(),
+        #     self._ui.doubleSpinBox_pc4.value(),
+        #     ]
 
         pelvis_rigid = [
             self._ui.doubleSpinBox_ptx.value(),
@@ -260,7 +265,7 @@ class LowerLimbGenerationDialog(QDialog):
             knee_rot_r = [np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),]
 
         self.data.LL.update_all_models(
-                                np.array(shape_mode_weights)[self.data.LL.shape_modes],
+                                shape_mode_weights[self.data.LL.shape_modes],
                                 self.data.LL.shape_modes,
                                 pelvis_rigid,
                                 hip_rot_l,
