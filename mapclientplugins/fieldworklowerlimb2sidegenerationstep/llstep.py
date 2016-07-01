@@ -105,7 +105,7 @@ class LLStepData(object):
     #                   'femur-LEC', 'femur-MEC', 'tibiafibula-LM',
     #                   'tibiafibula-MM',
     #                   )
-    minArgs = {'method':'L-BFGS-B',
+    minArgs = {'method':'BFGS',
                  'jac':False,
                  'bounds':None, 'tol':1e-6,
                  'options':{'eps':1e-5},
