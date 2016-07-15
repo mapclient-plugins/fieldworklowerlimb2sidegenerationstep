@@ -112,8 +112,26 @@ class LLStepData(object):
                  }
 
     def __init__(self, config):
+        """
+        example config
+        config['identifier'] = ''
+        config['GUI'] = 'True'
+        config['registration_mode'] = 'shapemodel'
+        config['pcs_to_fit'] = '1'
+        config['mweight'] = '0.1'
+        config['knee_corr'] = 'False'
+        config['knee_dof'] = 'False'
+        config['marker_radius'] = '5.0'
+        config['skin_pad'] = '5.0'
+        config['landmarks'] = {
+            'pelvis-LASIS': 'L.ASIS',
+            'pelvis-RASIS': 'R.ASIS',
+            ...
+            }
+
+        """
         self.config = config
-        self.inputLandmarks = None # a dict of landmarks
+        self.inputLandmarks = None # a dict of target landmark names : coordinates
         # self._targetLandmarksNames = None # list of strings matching keys in self.inputLandmarks
         self._targetLandmarks = None
         self.LL = lowerlimbatlas.LowerLimbAtlas('lowerlimb')
@@ -164,13 +182,86 @@ class LLStepData(object):
                                   self.LL.knee_rot_r,
                                   )
 
-    def _preprocessLandmarks(self, l):
-        return l
+    def _preprocessLandmarks(self):
+        """
+        given a dictionary of landmark names and coordinates, translate landmarks
+        according to markerRadius and skinPad.
+
+        Landmark names in the dictionary name should have fieldwork landmark names
+        """
+        # return l
         # return np.array(mocap_landmark_preprocess.preprocess_lower_limb(
         #                 self.markerRadius,
         #                 self.skinPad,
         #                 l[0], l[1], l[2], l[3], l[4], l[5], l[6]),
         #                 )
+
+        def _process(body, bodyLandmarks):
+            skipBody = False
+            targetCoords = []
+            targetNames = []
+            newLandmarks = {}
+
+            # get raw coordinates
+            for n in bodyLandmarks:
+                targetName = self.config['landmarks'].get(n)
+                targetCoords.append(self.inputLandmarks.get(targetName))
+                targetNames.append(targetName)  
+            
+            # preprocess
+            preprocessor = mocap_landmark_preprocess.preprocessors[body]
+            try:
+                newTargetCoords = preprocessor(
+                        self.markerRadius, self.skinPad, *targetCoords
+                        )
+            except mocap_landmark_preprocess.InsufficientLandmarksError:
+                print('Insufficient landmarks for preprocessing {}'.format(body))
+                skipBody = True
+
+            # save updated coordinates
+            if not skipBody:
+                for ni, n in enumerate(bodyLandmarks):
+                    if newTargetCoords[ni] is not None:
+                        newLandmarks[targetNames[ni]] = newTargetCoords[ni]
+
+            return newLandmarks
+
+        preprocdLandmarks = {}
+        # pelvis
+        pelvisLandmarks = (
+            'pelvis-LASIS', 'pelvis-RASIS', 'pelvis-LPSIS', 'pelvis-RPSIS',
+            'pelvis-Sacral'
+            )
+        preprocdLandmarks.update(_process('pelvis', pelvisLandmarks))
+
+        # femur-l
+        femurLLandmarks = (
+            'femur-LEC-l', 'femur-MEC-l'
+            )
+        preprocdLandmarks.update(_process('femur', femurLLandmarks))
+
+        # femur-r
+        femurRLandmarks = (
+            'femur-LEC-r', 'femur-MEC-r'
+            )
+        preprocdLandmarks.update(_process('femur', femurRLandmarks))
+
+        # tibiafibula-l
+        tibiafibulaLLandmarks = (
+            'tibiafibula-LM-l', 'tibiafibula-MM-l'
+            )
+        preprocdLandmarks.update(_process('tibiafibula', tibiafibulaLLandmarks))
+
+        # tibiafibula-r
+        tibiafibulaRLandmarks = (
+            'tibiafibula-LM-r', 'tibiafibula-MM-r'
+            )
+        preprocdLandmarks.update(_process('tibiafibula', tibiafibulaRLandmarks))
+
+        print('preprocessed landmarks:')
+        print(preprocdLandmarks)
+        
+        return preprocdLandmarks
 
     @property
     def outputModelDict(self):
@@ -309,8 +400,12 @@ class LLStepData(object):
         if '' in self.targetLandmarkNames:
             raise ValueError('Null string in targetLandmarkNames')
 
-        self._targetLandmarks = np.array([self.inputLandmarks[n] for n in self.targetLandmarkNames])
-        self._targetLandmarks = self._preprocessLandmarks(self._targetLandmarks)
+        # self._targetLandmarks = np.array([self.inputLandmarks[n] for n in self.targetLandmarkNames])
+        # self._targetLandmarks = self._preprocessLandmarks(self._targetLandmarks)
+        # return self._targetLandmarks
+
+        preprocd = self._preprocessLandmarks()
+        self._targetLandmarks = np.array([preprocd[n] for n in self.targetLandmarkNames])
         return self._targetLandmarks
     
     @property
