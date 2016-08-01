@@ -1,5 +1,5 @@
-fieldworklowerlimb2sidegenerationstep
-======================================
+Fieldwork Lowerlimb 2-side Generation Step
+===========================================
 MAP Client plugin for generating lower-limb bone models using
 an articulated shape model.
 
@@ -31,7 +31,7 @@ Outputs
 - **fieldworkmodeldict** [dict] : A dictionary of customised fieldwork models of
 lower limb bones. Dictionary keys are: pelvis, femur-l, femur-r, tibia-l,
 tibia-r, fibula-l, fibula-r, patella-l, patella-r.
-- **gias-lowerlimb** [LowerLimbAtlas instance]: The customised articulated lower
+- **gias-lowerlimb** [GIAS2 LowerLimbAtlas instance]: The customised articulated lower
 limb model.
 
 Configurations
@@ -40,7 +40,9 @@ Configurations
 - **Registration Mode**: How bone model shapes are adjusted during registration.
     Only shape changes via the shape model is currently supported.
 - **PCs to Fit** : Number of principal components to adjust bone shape along 
-    during registration.
+    during registration. It is advisable to perform registration first with 1
+    PC to encourage pose and size matching, then increasing to  5 PCs to fine
+    tune bone shape.
 - **Mahalanobis Weight** : Weighting on the Mahalanobis distance penalty term
     during registration. Higher weights penalise more against shape far
     from the mean. Value should be between 0.1 and 1.0.
