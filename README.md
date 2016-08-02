@@ -151,3 +151,7 @@ Supported Landmarks
 - tibiafibula-MC-r : tibia-fibula right lateral malleolus
 - tibiafibula-MM-r : tibia-fibula right medial malleolus
 - tibiafibula-TT-r : tibia-fibula right tibial tuberosity
+
+Todo List
+---------
+- Linear scaling as alternative to shape-model-based shape changes
