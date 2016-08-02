@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/lowerlimbgenerationdialog.ui'
 #
-# Created: Thu May 12 23:06:50 2016
+# Created: Tue Aug  2 15:33:30 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -555,4 +555,4 @@ class Ui_Dialog(object):
         self.screenshotSaveButton.setText(QtGui.QApplication.translate("Dialog", "Save Screenshot", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBox.setItemText(self.toolBox.indexOf(self.Screenshot), QtGui.QApplication.translate("Dialog", "Screenshots", None, QtGui.QApplication.UnicodeUTF8))
 
-from mayaviscenewidget import MayaviSceneWidget
+from gias2.mappluginutils.mayaviviewer.mayaviscenewidget import MayaviSceneWidget

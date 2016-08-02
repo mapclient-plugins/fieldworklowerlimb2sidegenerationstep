@@ -902,7 +902,7 @@
   <customwidget>
    <class>MayaviSceneWidget</class>
    <extends>QWidget</extends>
-   <header>mayaviscenewidget.h</header>
+   <header>gias2.mappluginutils.mayaviviewer.mayaviscenewidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
