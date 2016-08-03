@@ -65,6 +65,7 @@ class LowerLimbGenerationDialog(QDialog):
     _modelRenderArgs = {}
     _modelDisc = [8,8]
     _landmarkRenderArgs = {'mode':'sphere', 'scale_factor':20.0, 'color':(0,1,0)}
+    _landmarkAdjRenderArgs = {'mode':'sphere', 'scale_factor':15.0, 'color':(1,0,0)}
 
     def __init__(self, data, doneExecution, parent=None):
         '''
@@ -111,9 +112,18 @@ class LowerLimbGenerationDialog(QDialog):
                                     )
         # 'none' is first elem in self._landmarkNames, so skip that
         for ln, lcoords in sorted(self.data.inputLandmarks.items()):
+            print('{} {}'.format(ln, lcoords))
             self._objects.addObject(ln, MayaviViewerLandmark(ln,
                                                              lcoords,
                                                              renderArgs=self._landmarkRenderArgs
+                                                             )
+                                    )
+        for li, lcoords in enumerate(self.data.targetLandmarks):
+            ln = self.data.targetLandmarkNames[li] + '_adjusted'
+            print('{} {} {}'.format(li, ln, lcoords))
+            self._objects.addObject(ln, MayaviViewerLandmark(ln,
+                                                             lcoords,
+                                                             renderArgs=self._landmarkAdjRenderArgs
                                                              )
                                     )
         
@@ -334,10 +344,18 @@ class LowerLimbGenerationDialog(QDialog):
         
         # 'none' is first elem in self._landmarkNames, so skip that
         row = 0
+        # Add input landmarks
         for li, ln in enumerate(sorted(self.data.inputLandmarks.keys())):
-            self._addObjectToTable(li, ln, self._objects.getObject(ln), checked=True)
+            self._addObjectToTable(row, ln, self._objects.getObject(ln), checked=True)
             row+=1
 
+        # Add adjusted landmarks
+        for ln in self.data.targetLandmarkNames:
+            ln = ln + '_adjusted'
+            self._addObjectToTable(row, ln, self._objects.getObject(ln), checked=True)
+            row+=1
+
+        # Add bone models
         for mn in self.data.LL.models.keys():
             self._addObjectToTable(row, mn, self._objects.getObject(mn), checked=True)
             row += 1
@@ -549,6 +567,9 @@ class LowerLimbGenerationDialog(QDialog):
     def _refresh(self):
         for r in range(self._ui.tableWidget.rowCount()):
             tableItem = self._ui.tableWidget.item(r, self.objectTableHeaderColumns['Visible'])
+            if tableItem is None:
+                continue
+
             name = tableItem.text()
             visible = tableItem.checkState().name=='Checked'
             obj = self._objects.getObject(name)
@@ -567,15 +588,15 @@ class LowerLimbGenerationDialog(QDialog):
         self._scene.mlab.savefig( filename, size=( width, height ) )
 
     #================================================================#
-    @on_trait_change('scene.activated')
-    def testPlot(self):
-        # This function is called when the view is opened. We don't
-        # populate the scene when the view is not yet open, as some
-        # VTK features require a GLContext.
-        print('trait_changed')
+    # @on_trait_change('scene.activated')
+    # def testPlot(self):
+    #     # This function is called when the view is opened. We don't
+    #     # populate the scene when the view is not yet open, as some
+    #     # VTK features require a GLContext.
+    #     print('trait_changed')
 
-        # We can do normal mlab calls on the embedded scene.
-        self._scene.mlab.test_points3d()
+    #     # We can do normal mlab calls on the embedded scene.
+    #     self._scene.mlab.test_points3d()
 
 
     # def _saveImage_fired( self ):

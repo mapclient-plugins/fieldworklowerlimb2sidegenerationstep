@@ -75,13 +75,20 @@ execution in the step GUI if the GUI is enabled.
 
 Step GUI
 --------
-- **Visibles box** : Show or hide the lower limb model and input landmarks in the 3D scene.
+- **3D Scene** : Interactive viewer for the lower limb model and input markers.
+    Green markers are the raw marker positions while red markers are those used
+    for model fitting and adjusted for marker radius and soft-tissue thickness.
+- **Visibles box** : Show or hide the lower limb model and input landmarks in
+    the 3D scene.
 - **Landmarks tab** : Setup model-target landmarks for automatic registration.
     - Add and remove model-target landmark pairs to be used for model registration. 
-        Each entry is a model - target landmark pair. The model landmark should be selected from the set of supported landmarks (see Supported Landmarks section below).
+        Each entry is a model - target landmark pair. The model landmark should
+        be selected from the set of supported landmarks (see Supported Landmarks
+        section below).
         The target landmark should be selected from the list of input landmark names.
     - **Marker Radius** : Radius of the markers used for motion capture input landmarks.
-        This value is used to correct the input landmark positions to match the bone-surface model landmarks.
+        This value is used to correct the input landmark positions to match the
+        bone-surface model landmarks.
         If input landmarks are already on the bone surface, enter 0.0.
     - **Skin Padding** : The soft-tissue thickness between skin surface markers and the underlying bone surface.
         This value is used to correct the input landmark positions to match the bone-surface model landmarks.
@@ -110,6 +117,9 @@ Step GUI
     - **Reset** : Reset principal component weights and all rotations and translations to 0.
     - **Abort** : Abort the workflow.
     - **Accept** : Finish execution of the step and output the currently configured model.
+    - **Landmark Error** : Root-mean-squared distance between adjusted target
+        landmarks and corresponding fitted model landmarks.
+    - **Mahalanobis Distance** : The Mahalanobis distance of the fitted model. Higher values indicates a more unusual shape. Increasing the Mahalanobis Weight should reduce this number. The distance is calculated as sqrt(sum(z_i^2)) where z_i is the number of standard deviations from the mean of the fitted score of the i-th principal component.
 - **Screenshots tab** : Save a screenshot of the current 3-D scene to file.
     - **Pixels X** : Width in pixels of the output image.
     - **Pixels Y** : Height in pixels of the output image.
