@@ -34,6 +34,29 @@ tibia-r, fibula-l, fibula-r, patella-l, patella-r.
 - **gias-lowerlimb** [GIAS2 LowerLimbAtlas instance]: The customised articulated lower
 limb model.
 
+Usage
+-----
+This step is intended to produce a set of lower limb bone meshes by registering a lower limb shape model to a sparse set of landmarks corresponding to lower limb bony anatomical landmarks. The model can also be manual posed and shape without running any registration.
+
+This step has a workflow-runtime GUI in which the model can be viewed adjusted and registered. The GUI can also be disabled in which case the step will attempt to automatically registered the model to the configured landmarks.
+
+### Landmarks
+If the lowerlimb model is being fitted to a set of landmarks, there should be at least 1 input landmark per bone in the lowerlimb model. An ideal minimal set of landmarks should be the left and right anterior superior iliac spines on the pelvis, the midpoint of the left and right posterior superior iliac spines (Sacral), medial and lateral epicondyles for the left and right femur, medial and lateral malleolii for the left and right tibia and fibula. Additional landmarks, particularly on the proximal femur and proximal tibia, should improve bone shape prediction. If the pelvis-LASIS, pelvis-RASIS, and pelvis-Sacral landmarks are among the defined landmarks, the model can be registered fully automatically.
+
+### Registration
+In the configuration dialogue (before executing the workflow) or in the runtime GUI in the *Landmarks* tab, select the set of model landmarks to be fitted to their corresponding input landmarks. Before running registration by clicking the *Register* button, a number of registration parameters can be adjusted. See the Configurations and Step GUI sections for details on each parameter.
+
+If the pelvis-LASIS, pelvis-RASIS, and pelvis-Sacral landmarks are among the defined landmarks, click the *Register* button to automatically register the model to the landmarks. If the three pelvis landmarks are not present, coarse manual registration of the model to the target landmarks is required before clicking *Register*.
+
+Once registration is complete, the GUI will unlock and registration errors will be displayed. After registration, the model can be manually adjusted using controls in the _Manual Registration_ tab. To revert the model to its original state, click *Reset*. To output the current model, click *Accept*.
+
+### Manual Registration
+The _Manual Registration_ tab allows the model to be translated, rotated, posed, and deformed along its principal components. To produce a model completely manually, adjust the controls in the tab until satisfied, then click *Accept*.
+
+To manually align the model before automatic registration, adjust pelvis translation and rotation to bring the model within ~5 cm of pelvis target landmarks. Joint angles can be adjusted by is usually not necessary if target joint angles are less than 20 degrees from the model. After manual adjustments, open the _Auto Registration_ tab to configure and run auto registration.
+
+To manually adjust the model after auto registration, open the _Manual Registration_ tab after auto registration completes. Click _Accept_ to output the model after manual adjustments.
+
 Configurations
 --------------
 - **identifier** : Unique name for the step.
