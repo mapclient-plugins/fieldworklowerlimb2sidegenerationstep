@@ -128,7 +128,7 @@ Step GUI
     - **Registration Mode**: How bone model shapes are adjusted during registration.
         Only shape changes via the shape model is currently supported.
     - **PCs to Fit** : Number of principal components to adjust bone shape along 
-        during registration.
+        during registration. It is advisable to perform registration first with 1 PC to encourage pose and size matching, then increasing to  5 PCs to fine tune bone shape.
     - **Mahalanobis Weight** : Weighting on the Mahalanobis distance penalty term
         during registration. Higher weights penalise more against shape far
         from the mean. Value should be between 0.1 and 1.0.

@@ -258,8 +258,8 @@ class LLStepData(object):
             )
         preprocdLandmarks.update(_process('tibiafibula', tibiafibulaRLandmarks))
 
-        print('preprocessed landmarks:')
-        print(preprocdLandmarks)
+        # print('preprocessed landmarks:')
+        # print(preprocdLandmarks)
         
         return preprocdLandmarks
 
