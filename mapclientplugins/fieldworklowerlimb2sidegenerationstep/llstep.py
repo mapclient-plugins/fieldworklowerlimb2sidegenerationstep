@@ -227,6 +227,13 @@ class LLStepData(object):
             return newLandmarks
 
         preprocdLandmarks = {}
+
+        # fill with original coordinates
+        for nInput in self.config['landmarks'].values():
+            nInputCoords = self.inputLandmarks.get(nInput)
+            print('{}: {}'.format(nInput, nInputCoords))
+            preprocdLandmarks[nInput] = nInputCoords
+
         # pelvis
         pelvisLandmarks = (
             'pelvis-LASIS', 'pelvis-RASIS', 'pelvis-LPSIS', 'pelvis-RPSIS',
@@ -397,15 +404,25 @@ class LLStepData(object):
 
     @property
     def targetLandmarks(self):
-        if '' in self.targetLandmarkNames:
-            raise ValueError('Null string in targetLandmarkNames')
+        # if '' in self.targetLandmarkNames:
+        #     raise ValueError('Null string in targetLandmarkNames')
 
         # self._targetLandmarks = np.array([self.inputLandmarks[n] for n in self.targetLandmarkNames])
         # self._targetLandmarks = self._preprocessLandmarks(self._targetLandmarks)
         # return self._targetLandmarks
 
         preprocd = self._preprocessLandmarks()
-        self._targetLandmarks = np.array([preprocd[n] for n in self.targetLandmarkNames])
+        print('preprocd')
+        print(preprocd)
+        # self._targetLandmarks = np.array([preprocd[n] for n in self.targetLandmarkNames])
+
+        _targetLandmarks = []
+        for n in self.targetLandmarkNames:
+            if (n is None) or (len(n)==0):
+                pass
+            else:
+                _targetLandmarks.append(preprocd[n])
+        self._targetLandmarks = np.array(_targetLandmarks)
         return self._targetLandmarks
     
     @property
