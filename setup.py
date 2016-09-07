@@ -15,10 +15,9 @@ requires = readfile("requirements.txt", split=True)
 license = readfile("LICENSE")
 
 setup(name=u'mapclientplugins.fieldworklowerlimb2sidegenerationstep',
-    version='1.0.0',
+    version='1.0.1',
     description='',
-    long_description='
-'.join(readme) + license,
+    long_description=''.join(readme) + license,
     classifiers=[
       "Development Status :: 4 - Beta",
       "License :: OSI Approved :: Apache Software License",
