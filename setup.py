@@ -15,7 +15,8 @@ requires = readfile("requirements.txt", split=True)
 license = readfile("LICENSE")
 package_data = {
   'mapclientplugins.fieldworklowerlimb2sidegenerationstep': [
-    'data/*',
+    'data/atlas_meshes/*',
+    'data/shape_models/*',
   ],
 }
 
@@ -30,7 +31,7 @@ setup(name=u'mapclientplugins.fieldworklowerlimb2sidegenerationstep',
     ],
     author=u'Ju Zhang',
     author_email='',
-    url='',
+    url='https://github.com/mapclient-plugins/fieldworklowerlimb2sidegenerationstep',
     license='APACHE',
     packages=find_packages(exclude=['ez_setup',]),
     namespace_packages=['mapclientplugins'],
