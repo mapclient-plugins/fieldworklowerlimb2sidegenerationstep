@@ -13,6 +13,11 @@ def readfile(filename, split=False):
 readme = readfile("README.md", split=True)[3:]  # skip title
 requires = readfile("requirements.txt", split=True)
 license = readfile("LICENSE")
+package_data = {
+  'mapclientplugins.fieldworklowerlimb2sidegenerationstep': [
+    'data/*',
+  ],
+}
 
 setup(name=u'mapclientplugins.fieldworklowerlimb2sidegenerationstep',
     version='1.0.1',
@@ -30,6 +35,7 @@ setup(name=u'mapclientplugins.fieldworklowerlimb2sidegenerationstep',
     packages=find_packages(exclude=['ez_setup',]),
     namespace_packages=['mapclientplugins'],
     include_package_data=True,
+    package_data=package_data,
     zip_safe=False,
     install_requires=requires,
     )
