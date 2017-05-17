@@ -17,6 +17,12 @@ tibia, fibula, and patella are considered as 1 rigid body. The model will
 attempt to maintain a tibio-femoral joint spacing of 5.0 mm at whatever knee
 angle to account for cartilage thickness.
 
+References
+----------
+Lower limb estimation from sparse landmarks using an articulated shape model.
+Zhang et al. Journal of Biomechanics, Volume 49, Issue 16, 3875 - 3881
+http://dx.doi.org/10.1016/j.jbiomech.2016.10.021
+
 Requires
 --------
 - GIAS2: https://bitbucket.org/jangle/gias2
