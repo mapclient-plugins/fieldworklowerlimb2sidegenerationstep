@@ -82,7 +82,7 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         self._data.loadData()
         self._data.updateFromConfig()
         print('LL estimation configs:')
-        print self._data.config
+        print(self._data.config)
         if self._config['GUI']=='True':
             # start gui
             self._widget = LowerLimbGenerationDialog(self._data, self._doneExecution)
