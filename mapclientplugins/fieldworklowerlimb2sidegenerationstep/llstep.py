@@ -223,6 +223,10 @@ class LLStepData(object):
                 for ni, n in enumerate(bodyLandmarks):
                     if newTargetCoords[ni] is not None:
                         newLandmarks[targetNames[ni]] = newTargetCoords[ni]
+            else:
+                # keep original coordinates if preprocessing failed
+                for ni, n in enumerate(bodyLandmarks):
+                    newLandmarks[targetNames[ni]] = targetCoords[ni]
 
             return newLandmarks
 
