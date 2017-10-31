@@ -21,7 +21,7 @@ package_data = {
 }
 
 setup(name=u'mapclientplugins.fieldworklowerlimb2sidegenerationstep',
-    version='1.0.2',
+    version='1.0.3',
     description='',
     long_description='\n'.join(readme) + license,
     classifiers=[
