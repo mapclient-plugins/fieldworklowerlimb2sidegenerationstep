@@ -18,8 +18,9 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
     along with MAP Client.  If not, see <http://www.gnu.org/licenses/>..
 '''
 
-from PySide2.QtWidgets import QDialog, QFileDialog, QDialogButtonBox,\
-                         QAbstractItemView, QTableWidgetItem, QComboBox   
+from PySide2.QtWidgets import QDialog, QFileDialog, QDialogButtonBox, \
+    QAbstractItemView, QTableWidgetItem, QComboBox
+
 
 class LandmarkComboBoxTable(object):
 
@@ -39,12 +40,12 @@ class LandmarkComboBoxTable(object):
         landmarkPairs : dict (optional)
             Existing landmark pairs to initialise the table with
         """
-         
+
         self.modelLandmarks = modelLandmarks
         self.inputLandmarks = inputLandmarks
         self.table = tableWidget
         self._rowCount = 0
-        self._comboBoxes = [] # (model, input)
+        self._comboBoxes = []  # (model, input)
 
         if landmarkPairs is not None:
             for m, i in landmarkPairs.items():
@@ -61,7 +62,7 @@ class LandmarkComboBoxTable(object):
         If modelLandmark and or inputLandmark are provided, those landmark
         names will be preselected.
         """
-        self.table.setRowCount(self._rowCount+1)
+        self.table.setRowCount(self._rowCount + 1)
         combMode = self._addComboBox(self._rowCount, 0, self.modelLandmarks, modelLandmark)
         combInput = self._addComboBox(self._rowCount, 1, self.inputLandmarks, inputLandmark)
         self._comboBoxes.append((combMode, combInput))
@@ -83,7 +84,7 @@ class LandmarkComboBoxTable(object):
         """
         Delete all rows
         """
-        while self._rowCount>0:
+        while self._rowCount > 0:
             self.removeLandmark(0)
 
     def getLandmarkPairs(self):
@@ -106,20 +107,20 @@ class LandmarkComboBoxTable(object):
             mComb.setEnabled(False)
             iComb.setEnabled(False)
 
-
     def _addComboBox(self, row, col, items, currentItem=None):
         comb = QComboBox()
         for it in items:
             comb.addItem(it)
         self.table.setCellWidget(row, col, comb)
 
-        if (currentItem is not None) and (currentItem!=''):
+        if (currentItem is not None) and (currentItem != ''):
             if currentItem in items:
                 comb.setCurrentIndex(items.index(currentItem))
             else:
                 print('invalid item: {}'.format(currentItem))
 
         return comb
+
 
 class LandmarkComboBoxTextTable(object):
 
@@ -139,11 +140,11 @@ class LandmarkComboBoxTextTable(object):
         landmarkPairs : dict (optional)
             Existing landmark pairs to initialise the table with
         """
-         
+
         self.modelLandmarks = modelLandmarks
         self.table = tableWidget
         self._rowCount = 0
-        self._rowElems = [] # (model, input)
+        self._rowElems = []  # (model, input)
 
         if landmarkPairs is not None:
             for m, i in landmarkPairs.items():
@@ -160,7 +161,7 @@ class LandmarkComboBoxTextTable(object):
         If modelLandmark and or inputLandmark are provided, those landmark
         names will be preselected.
         """
-        self.table.setRowCount(self._rowCount+1)
+        self.table.setRowCount(self._rowCount + 1)
         combMode = self._addComboBox(self._rowCount, 0, self.modelLandmarks, modelLandmark)
         elemInput = self._addTableItem(self._rowCount, 1, inputLandmark)
         self._rowElems.append((combMode, elemInput))
@@ -182,7 +183,7 @@ class LandmarkComboBoxTextTable(object):
         """
         Delete all rows
         """
-        while self._rowCount>0:
+        while self._rowCount > 0:
             self.removeLandmark(0)
 
     def getLandmarkPairs(self):
@@ -211,7 +212,7 @@ class LandmarkComboBoxTextTable(object):
             comb.addItem(it)
         self.table.setCellWidget(row, col, comb)
 
-        if (currentItem is not None) and (currentItem!=''):
+        if (currentItem is not None) and (currentItem != ''):
             if currentItem in items:
                 comb.setCurrentIndex(items.index(currentItem))
             else:

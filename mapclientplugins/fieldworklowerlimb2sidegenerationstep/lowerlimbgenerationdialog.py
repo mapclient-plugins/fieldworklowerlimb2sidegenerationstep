@@ -18,10 +18,11 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
     along with MAP Client.  If not, see <http://www.gnu.org/licenses/>..
 '''
 import os
+
 os.environ['ETS_TOOLKIT'] = 'qt4'
 
-from PySide2.QtWidgets import QDialog, QFileDialog, QDialogButtonBox,\
-                         QAbstractItemView, QTableWidgetItem
+from PySide2.QtWidgets import QDialog, QFileDialog, QDialogButtonBox, \
+    QAbstractItemView, QTableWidgetItem
 from PySide2.QtGui import QDoubleValidator, QIntValidator
 from PySide2.QtCore import Qt
 from PySide2.QtCore import QThread, Signal
@@ -30,15 +31,16 @@ from mapclientplugins.fieldworklowerlimb2sidegenerationstep.ui_lowerlimbgenerati
 from traits.api import HasTraits, Instance, on_trait_change, \
     Int, Dict
 
-from gias2.mappluginutils.mayaviviewer import MayaviViewerObjectsContainer,\
-                                              MayaviViewerLandmark,\
-                                              MayaviViewerFieldworkModel,\
-                                              colours
+from gias2.mappluginutils.mayaviviewer import MayaviViewerObjectsContainer, \
+    MayaviViewerLandmark, \
+    MayaviViewerFieldworkModel, \
+    colours
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.landmarktablewidget import LandmarkComboBoxTable
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.llstep import validModelLandmarks
 
 import numpy as np
 import copy
+
 
 class _ExecThread(QThread):
     update = Signal(tuple)
@@ -55,17 +57,18 @@ class _ExecThread(QThread):
         output = self.func()
         self.update.emit(output)
 
+
 class LowerLimbGenerationDialog(QDialog):
     '''
     Configure dialog to present the user with the options to configure this step.
     '''
     defaultColor = colours['bone']
-    objectTableHeaderColumns = {'Visible':0}
-    backgroundColour = (0.0,0.0,0.0)
+    objectTableHeaderColumns = {'Visible': 0}
+    backgroundColour = (0.0, 0.0, 0.0)
     _modelRenderArgs = {}
-    _modelDisc = [8,8]
-    _landmarkRenderArgs = {'mode':'sphere', 'scale_factor':20.0, 'color':(0,1,0)}
-    _landmarkAdjRenderArgs = {'mode':'sphere', 'scale_factor':15.0, 'color':(1,0,0)}
+    _modelDisc = [8, 8]
+    _landmarkRenderArgs = {'mode': 'sphere', 'scale_factor': 20.0, 'color': (0, 1, 0)}
+    _landmarkAdjRenderArgs = {'mode': 'sphere', 'scale_factor': 15.0, 'color': (1, 0, 0)}
 
     def __init__(self, data, doneExecution, parent=None):
         '''
@@ -126,7 +129,7 @@ class LowerLimbGenerationDialog(QDialog):
                                                              renderArgs=self._landmarkAdjRenderArgs
                                                              )
                                     )
-        
+
     def _setupGui(self):
         # screenshot page
         self._ui.screenshotPixelXLineEdit.setValidator(QIntValidator())
@@ -135,10 +138,10 @@ class LowerLimbGenerationDialog(QDialog):
         # landmarks page
         validInputLandmarks = sorted(self.data.inputLandmarks.keys())
         self.landmarkTable = LandmarkComboBoxTable(
-                                validModelLandmarks,
-                                validInputLandmarks,
-                                self._ui.tableWidgetLandmarks,
-                                )
+            validModelLandmarks,
+            validInputLandmarks,
+            self._ui.tableWidgetLandmarks,
+        )
 
         # auto reg page
         self._ui.spinBox_pcsToFit.setMaximum(self.data.LL.SHAPEMODESMAX)
@@ -189,24 +192,27 @@ class LowerLimbGenerationDialog(QDialog):
         self._ui.comboBox_regmode.setCurrentIndex(
             self.data.validRegistrationModes.index(
                 self.data.registrationMode,
-                )
             )
+        )
         self._ui.spinBox_pcsToFit.setValue(self.data.nShapeModes)
         self._ui.spinBox_mWeight.setValue(self.data.mWeight)
         self._ui.checkBox_kneecorr.setChecked(bool(self.data.kneeCorr))
         self._ui.checkBox_kneedof.setChecked(bool(self.data.kneeDOF))
 
     def _updateNShapeModes1(self):
-        if self.data.nShapeModes<1:
+        if self.data.nShapeModes < 1:
             self.data.nShapeModes = 1
+
     def _updateNShapeModes2(self):
-        if self.data.nShapeModes<2:
+        if self.data.nShapeModes < 2:
             self.data.nShapeModes = 2
+
     def _updateNShapeModes3(self):
-        if self.data.nShapeModes<3:
+        if self.data.nShapeModes < 3:
             self.data.nShapeModes = 3
+
     def _updateNShapeModes4(self):
-        if self.data.nShapeModes<4:
+        if self.data.nShapeModes < 4:
             self.data.nShapeModes = 4
 
     def _saveConfigs(self):
@@ -247,43 +253,42 @@ class LowerLimbGenerationDialog(QDialog):
             np.deg2rad(self._ui.doubleSpinBox_prx.value()),
             np.deg2rad(self._ui.doubleSpinBox_pry.value()),
             np.deg2rad(self._ui.doubleSpinBox_prz.value()),
-            ]
-        
+        ]
+
         hip_rot_l = [
             np.deg2rad(self._ui.doubleSpinBox_hiplx.value()),
             np.deg2rad(self._ui.doubleSpinBox_hiply.value()),
             np.deg2rad(self._ui.doubleSpinBox_hiplz.value()),
-            ]
+        ]
 
         hip_rot_r = [
             np.deg2rad(self._ui.doubleSpinBox_hiprx.value()),
             np.deg2rad(self._ui.doubleSpinBox_hipry.value()),
             np.deg2rad(self._ui.doubleSpinBox_hiprz.value()),
-            ]     
+        ]
 
         if self.data.kneeDOF:
             knee_rot_l = [
                 np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),
                 np.deg2rad(self._ui.doubleSpinBox_kneelz.value()),
-                ]
+            ]
             knee_rot_r = [
                 np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),
                 np.deg2rad(self._ui.doubleSpinBox_kneerz.value()),
-                ]
+            ]
         else:
-            knee_rot_l = [np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),]
-            knee_rot_r = [np.deg2rad(self._ui.doubleSpinBox_kneerx.value()),]
+            knee_rot_l = [np.deg2rad(self._ui.doubleSpinBox_kneelx.value()), ]
+            knee_rot_r = [np.deg2rad(self._ui.doubleSpinBox_kneerx.value()), ]
 
         self.data.LL.update_all_models(
-                                shape_mode_weights[self.data.LL.shape_modes],
-                                self.data.LL.shape_modes,
-                                pelvis_rigid,
-                                hip_rot_l,
-                                hip_rot_r,
-                                knee_rot_l,
-                                knee_rot_r,
-                                )
-            
+            shape_mode_weights[self.data.LL.shape_modes],
+            self.data.LL.shape_modes,
+            pelvis_rigid,
+            hip_rot_l,
+            hip_rot_r,
+            knee_rot_l,
+            knee_rot_r,
+        )
 
     def _makeConnections(self):
         self._ui.tableWidget.itemClicked.connect(self._tableItemClicked)
@@ -295,7 +300,7 @@ class LowerLimbGenerationDialog(QDialog):
         self.landmarkTable.table.itemChanged.connect(self._saveConfigs)
         self._ui.pushButton_addLandmark.clicked.connect(self.landmarkTable.addLandmark)
         self._ui.pushButton_removeLandmark.clicked.connect(self.landmarkTable.removeLandmark)
-        
+
         # manual reg
         self._ui.doubleSpinBox_pc1.valueChanged.connect(self._manualRegUpdate)
         self._ui.doubleSpinBox_pc1.valueChanged.connect(self._updateNShapeModes1)
@@ -341,19 +346,19 @@ class LowerLimbGenerationDialog(QDialog):
         self._ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self._ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
-        
+
         # 'none' is first elem in self._landmarkNames, so skip that
         row = 0
         # Add input landmarks
         for li, ln in enumerate(sorted(self.data.inputLandmarks.keys())):
             self._addObjectToTable(row, ln, self._objects.getObject(ln), checked=True)
-            row+=1
+            row += 1
 
         # Add adjusted landmarks
         for ln in self.data.targetLandmarkNames:
             ln = ln + '_adjusted'
             self._addObjectToTable(row, ln, self._objects.getObject(ln), checked=True)
-            row+=1
+            row += 1
 
         # Add bone models
         for mn in self.data.LL.models.keys():
@@ -365,7 +370,7 @@ class LowerLimbGenerationDialog(QDialog):
 
     def _addObjectToTable(self, row, name, obj, checked=True):
         typeName = obj.typeName
-        print('adding to table: %s (%s)'%(name, typeName))
+        print('adding to table: %s (%s)' % (name, typeName))
         tableItem = QTableWidgetItem(name)
         if checked:
             tableItem.setCheckState(Qt.Checked)
@@ -377,9 +382,9 @@ class LowerLimbGenerationDialog(QDialog):
     def _tableItemClicked(self):
         selectedRow = self._ui.tableWidget.currentRow()
         self.selectedObjectName = self._ui.tableWidget.item(
-                                    selectedRow,
-                                    self.objectTableHeaderColumns['Visible']
-                                    ).text()
+            selectedRow,
+            self.objectTableHeaderColumns['Visible']
+        ).text()
         print(selectedRow)
         print(self.selectedObjectName)
 
@@ -388,10 +393,10 @@ class LowerLimbGenerationDialog(QDialog):
         # name = self._getSelectedObjectName()
 
         # checked changed item is actually the checkbox
-        if tableItem.column()==self.objectTableHeaderColumns['Visible']:
+        if tableItem.column() == self.objectTableHeaderColumns['Visible']:
             # get visible status
             name = tableItem.text()
-            visible = tableItem.checkState().name=='Checked'
+            visible = tableItem.checkState().name == 'Checked'
 
             print('visibleboxchanged name', name)
             print('visibleboxchanged visible', visible)
@@ -571,7 +576,7 @@ class LowerLimbGenerationDialog(QDialog):
                 continue
 
             name = tableItem.text()
-            visible = tableItem.checkState().name=='Checked'
+            visible = tableItem.checkState().name == 'Checked'
             obj = self._objects.getObject(name)
             print(obj.name)
             if obj.sceneObject:
@@ -585,9 +590,9 @@ class LowerLimbGenerationDialog(QDialog):
         filename = self._ui.screenshotFilenameLineEdit.text()
         width = int(self._ui.screenshotPixelXLineEdit.text())
         height = int(self._ui.screenshotPixelYLineEdit.text())
-        self._scene.mlab.savefig( filename, size=( width, height ) )
+        self._scene.mlab.savefig(filename, size=(width, height))
 
-    #================================================================#
+    # ================================================================#
     # @on_trait_change('scene.activated')
     # def testPlot(self):
     #     # This function is called when the view is opened. We don't
@@ -598,7 +603,5 @@ class LowerLimbGenerationDialog(QDialog):
     #     # We can do normal mlab calls on the embedded scene.
     #     self._scene.mlab.test_points3d()
 
-
     # def _saveImage_fired( self ):
     #     self.scene.mlab.savefig( str(self.saveImageFilename), size=( int(self.saveImageWidth), int(self.saveImageLength) ) )
-        
