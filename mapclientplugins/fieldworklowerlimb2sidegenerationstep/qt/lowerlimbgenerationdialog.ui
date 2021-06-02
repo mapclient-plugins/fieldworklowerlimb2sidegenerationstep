@@ -21,7 +21,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="widgetMain" native="true">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -98,10 +98,10 @@
            <attribute name="horizontalHeaderCascadingSectionResizes">
             <bool>false</bool>
            </attribute>
-           <attribute name="horizontalHeaderDefaultSectionSize">
+           <attribute name="horizontalHeaderMinimumSectionSize">
             <number>300</number>
            </attribute>
-           <attribute name="horizontalHeaderMinimumSectionSize">
+           <attribute name="horizontalHeaderDefaultSectionSize">
             <number>300</number>
            </attribute>
            <column>
@@ -127,8 +127,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>432</width>
-              <height>392</height>
+              <width>428</width>
+              <height>379</height>
              </rect>
             </property>
             <attribute name="label">
@@ -149,11 +149,11 @@
                <attribute name="horizontalHeaderCascadingSectionResizes">
                 <bool>false</bool>
                </attribute>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>150</number>
-               </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
                 <number>100</number>
+               </attribute>
+               <attribute name="horizontalHeaderDefaultSectionSize">
+                <number>150</number>
                </attribute>
                <column>
                 <property name="text">
@@ -212,8 +212,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>432</width>
-              <height>392</height>
+              <width>428</width>
+              <height>379</height>
              </rect>
             </property>
             <attribute name="label">
@@ -627,8 +627,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>432</width>
-              <height>392</height>
+              <width>428</width>
+              <height>379</height>
              </rect>
             </property>
             <attribute name="label">
@@ -793,8 +793,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>432</width>
-              <height>392</height>
+              <width>428</width>
+              <height>379</height>
              </rect>
             </property>
             <attribute name="label">
