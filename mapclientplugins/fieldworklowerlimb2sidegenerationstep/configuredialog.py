@@ -1,6 +1,4 @@
-
-
-from PySide import QtGui
+from PySide2 import QtWidgets
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.ui_configuredialog import Ui_Dialog
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.llstep import validModelLandmarks
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.landmarktablewidget import LandmarkComboBoxTextTable
@@ -9,9 +7,11 @@ INVALID_STYLE_SHEET = 'background-color: rgba(239, 0, 0, 50)'
 DEFAULT_STYLE_SHEET = ''
 
 REG_MODES = ('shapemodel',)
+
+
 # REG_MODES = ('shapemodel', 'uniformscaling', 'perbonescaling', 'manual')
 
-class ConfigureDialog(QtGui.QDialog):
+class ConfigureDialog(QtWidgets.QDialog):
     '''
     Configure dialog to present the user with the options to configure this step.
     '''
@@ -20,8 +20,8 @@ class ConfigureDialog(QtGui.QDialog):
         '''
         Constructor
         '''
-        QtGui.QDialog.__init__(self, parent)
-        
+        QtWidgets.QDialog.__init__(self, parent)
+
         self._ui = Ui_Dialog()
         self._ui.setupUi(self)
 
@@ -34,9 +34,9 @@ class ConfigureDialog(QtGui.QDialog):
         self.identifierOccursCount = None
 
         self.landmarkTable = LandmarkComboBoxTextTable(
-                                validModelLandmarks,
-                                self._ui.tableWidgetLandmarks,
-                                )
+            validModelLandmarks,
+            self._ui.tableWidgetLandmarks,
+        )
 
         self._makeConnections()
 
@@ -53,14 +53,15 @@ class ConfigureDialog(QtGui.QDialog):
         Override the accept method so that we can confirm saving an
         invalid configuration.
         '''
-        result = QtGui.QMessageBox.Yes
+        result = QtWidgets.QMessageBox.Yes
         if not self.validate():
-            result = QtGui.QMessageBox.warning(self, 'Invalid Configuration',
-                'This configuration is invalid.  Unpredictable behaviour may result if you choose \'Yes\', are you sure you want to save this configuration?)',
-                QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+            result = QtWidgets.QMessageBox.warning(self, 'Invalid Configuration',
+                                                   'This configuration is invalid.  Unpredictable behaviour may result if you choose \'Yes\', are you sure you want to save this configuration?)',
+                                                   QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                                   QtWidgets.QMessageBox.No)
 
-        if result == QtGui.QMessageBox.Yes:
-            QtGui.QDialog.accept(self)
+        if result == QtWidgets.QMessageBox.Yes:
+            QtWidgets.QDialog.accept(self)
 
     def validate(self):
         '''
@@ -118,7 +119,7 @@ class ConfigureDialog(QtGui.QDialog):
         self._ui.lineEdit_id.setText(config['identifier'])
         self._ui.comboBox_regmode.setCurrentIndex(
             REG_MODES.index(config['registration_mode'])
-            )
+        )
         self._ui.spinBox_pcsToFit.setValue(int(config['pcs_to_fit']))
         self._ui.doubleSpinBox_mWeight.setValue(float(config['mweight']))
 
@@ -126,16 +127,15 @@ class ConfigureDialog(QtGui.QDialog):
             self.landmarkTable.addLandmark(ml, il)
         self._ui.doubleSpinBox_markerRadius.setValue(float(config['marker_radius']))
         self._ui.doubleSpinBox_skinPad.setValue(float(config['skin_pad']))
-        if config['knee_corr']=='True':
+        if config['knee_corr'] == 'True':
             self._ui.checkBox_kneecorr.setChecked(bool(True))
         else:
             self._ui.checkBox_kneecorr.setChecked(bool(False))
-        if config['knee_dof']=='True':
+        if config['knee_dof'] == 'True':
             self._ui.checkBox_kneedof.setChecked(bool(True))
         else:
             self._ui.checkBox_kneedof.setChecked(bool(False))
-        if config['GUI']=='True':
+        if config['GUI'] == 'True':
             self._ui.checkBox_GUI.setChecked(bool(True))
         else:
             self._ui.checkBox_GUI.setChecked(bool(False))
-

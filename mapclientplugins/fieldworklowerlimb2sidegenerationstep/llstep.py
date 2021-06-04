@@ -9,6 +9,7 @@ from gias2.fieldwork.field import geometric_field
 from gias2.musculoskeletal import mocap_landmark_preprocess
 from gias2.musculoskeletal.bonemodels import lowerlimbatlasfit2side
 from gias2.musculoskeletal.bonemodels import lowerlimbatlas
+
 # from gias2.musculoskeletal.bonemodels import lowerlimbatlasfitscaling
 
 validModelLandmarks = (
@@ -45,71 +46,76 @@ validModelLandmarks = (
     'tibiafibula-MM-r',
     'tibiafibula-TT-l',
     'tibiafibula-TT-r',
-    )
+)
 
 SELF_DIRECTORY = os.path.split(__file__)[0]
 PELVIS_SUBMESHES = ('RH', 'LH', 'sac')
 PELVIS_SUBMESH_ELEMS = {'RH': range(0, 73),
-                        'LH': range(73,146),
+                        'LH': range(73, 146),
                         'sac': range(146, 260),
                         }
-PELVIS_BASISTYPES = {'tri10':'simplex_L3_L3','quad44':'quad_L3_L3'}
+PELVIS_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
 TIBFIB_SUBMESHES = ('tibia', 'fibula')
 TIBFIB_SUBMESH_ELEMS = {'tibia': range(0, 46),
-                        'fibula': range(46,88),
+                        'fibula': range(46, 88),
                         }
-TIBFIB_BASISTYPES = {'tri10':'simplex_L3_L3','quad44':'quad_L3_L3'}
-    
-class LLStepData(object):
+TIBFIB_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
+
+class LLStepData(object):
     _shapeModelFilenameRight = os.path.join(SELF_DIRECTORY, 'data/shape_models/LLP26_right_mirrored_from_left_rigid.pc')
-    _boneModelFilenamesRight = {'pelvis': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
-                                      os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
-                                      os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
-                                      ),
-                           'femur': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-                                     os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.ens'),
-                                     os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.mesh'),
-                                     ),
-                           'patella': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-                                       os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.ens'),
-                                       os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.mesh'),
-                                       ),
-                           'tibiafibula': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-                                           os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.ens'),
-                                           os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
-                                           ),
-                            }
+    _boneModelFilenamesRight = {
+        'pelvis': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
+                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
+                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
+                   ),
+        'femur': (
+        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.ens'),
+        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.mesh'),
+        ),
+        'patella': (
+        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.ens'),
+        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.mesh'),
+        ),
+        'tibiafibula': (os.path.join(SELF_DIRECTORY,
+                                     'data/atlas_meshes/tibia_fibula_cubic_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.ens'),
+                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
+                        ),
+        }
     _shapeModelFilenameLeft = os.path.join(SELF_DIRECTORY, 'data/shape_models/LLP26_rigid.pc')
-    _boneModelFilenamesLeft = {'pelvis': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
-                                      os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
-                                      os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
-                                      ),
-                           'femur': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_mean_rigid_LLP26.geof'),
-                                     os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.ens'),
-                                     os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.mesh'),
-                                     ),
-                           'patella': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_left_mean_rigid_LLP26.geof'),
-                                       os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.ens'),
-                                       os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.mesh'),
-                                       ),
-                           'tibiafibula': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_left_mean_rigid_LLP26.geof'),
-                                           os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.ens'),
-                                           os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.mesh'),
-                                           ),
-                            }
+    _boneModelFilenamesLeft = {
+        'pelvis': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
+                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
+                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
+                   ),
+        'femur': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_mean_rigid_LLP26.geof'),
+                  os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.ens'),
+                  os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.mesh'),
+                  ),
+        'patella': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_left_mean_rigid_LLP26.geof'),
+                    os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.ens'),
+                    os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.mesh'),
+                    ),
+        'tibiafibula': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_left_mean_rigid_LLP26.geof'),
+                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.ens'),
+                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.mesh'),
+                        ),
+        }
     _validRegistrationModes = ('shapemodel',)
     # _validRegistrationModes = ('shapemodel', 'uniformscaling', 'perbonescaling')
     # landmarkNames = ('pelvis-LASIS', 'pelvis-RASIS', 'pelvis-Sacral',
     #                   'femur-LEC', 'femur-MEC', 'tibiafibula-LM',
     #                   'tibiafibula-MM',
     #                   )
-    minArgs = {'method':'BFGS',
-                 'jac':False,
-                 'bounds':None, 'tol':1e-6,
-                 'options':{'eps':1e-5},
-                 }
+    minArgs = {'method': 'BFGS',
+               'jac': False,
+               'bounds': None, 'tol': 1e-6,
+               'options': {'eps': 1e-5},
+               }
 
     def __init__(self, config):
         """
@@ -131,7 +137,7 @@ class LLStepData(object):
 
         """
         self.config = config
-        self.inputLandmarks = None # a dict of target landmark names : coordinates
+        self.inputLandmarks = None  # a dict of target landmark names : coordinates
         # self._targetLandmarksNames = None # list of strings matching keys in self.inputLandmarks
         self._targetLandmarks = None
         self.LL = lowerlimbatlas.LowerLimbAtlas('lowerlimb')
@@ -189,6 +195,7 @@ class LLStepData(object):
 
         Landmark names in the dictionary name should have fieldwork landmark names
         """
+
         # return l
         # return np.array(mocap_landmark_preprocess.preprocess_lower_limb(
         #                 self.markerRadius,
@@ -206,14 +213,14 @@ class LLStepData(object):
             for n in bodyLandmarks:
                 targetName = self.config['landmarks'].get(n)
                 targetCoords.append(self.inputLandmarks.get(targetName))
-                targetNames.append(targetName)  
-            
-            # preprocess
+                targetNames.append(targetName)
+
+                # preprocess
             preprocessor = mocap_landmark_preprocess.preprocessors[body]
             try:
                 newTargetCoords = preprocessor(
-                        self.markerRadius, self.skinPad, *targetCoords
-                        )
+                    self.markerRadius, self.skinPad, *targetCoords
+                )
             except mocap_landmark_preprocess.InsufficientLandmarksError:
                 print('Insufficient landmarks for preprocessing {}'.format(body))
                 skipBody = True
@@ -242,36 +249,36 @@ class LLStepData(object):
         pelvisLandmarks = (
             'pelvis-LASIS', 'pelvis-RASIS', 'pelvis-LPSIS', 'pelvis-RPSIS',
             'pelvis-Sacral'
-            )
+        )
         preprocdLandmarks.update(_process('pelvis', pelvisLandmarks))
 
         # femur-l
         femurLLandmarks = (
             'femur-LEC-l', 'femur-MEC-l'
-            )
+        )
         preprocdLandmarks.update(_process('femur', femurLLandmarks))
 
         # femur-r
         femurRLandmarks = (
             'femur-LEC-r', 'femur-MEC-r'
-            )
+        )
         preprocdLandmarks.update(_process('femur', femurRLandmarks))
 
         # tibiafibula-l
         tibiafibulaLLandmarks = (
             'tibiafibula-LM-l', 'tibiafibula-MM-l'
-            )
+        )
         preprocdLandmarks.update(_process('tibiafibula', tibiafibulaLLandmarks))
 
         # tibiafibula-r
         tibiafibulaRLandmarks = (
             'tibiafibula-LM-r', 'tibiafibula-MM-r'
-            )
+        )
         preprocdLandmarks.update(_process('tibiafibula', tibiafibulaRLandmarks))
 
         # print('preprocessed landmarks:')
         # print(preprocdLandmarks)
-        
+
         return preprocdLandmarks
 
     @property
@@ -298,27 +305,27 @@ class LLStepData(object):
     def _splitTibiaFibulaGFs(self):
         tibfibL = self.LL.models['tibiafibula-l'].gf
         tibL = tibfibL.makeGFFromElements(
-                'tibia-l',
-                TIBFIB_SUBMESH_ELEMS['tibia'],
-                TIBFIB_BASISTYPES,
-                )
+            'tibia-l',
+            TIBFIB_SUBMESH_ELEMS['tibia'],
+            TIBFIB_BASISTYPES,
+        )
         fibL = tibfibL.makeGFFromElements(
-                'fibula-l',
-                TIBFIB_SUBMESH_ELEMS['fibula'],
-                TIBFIB_BASISTYPES,
-                )
+            'fibula-l',
+            TIBFIB_SUBMESH_ELEMS['fibula'],
+            TIBFIB_BASISTYPES,
+        )
 
         tibfibR = self.LL.models['tibiafibula-r'].gf
         tibR = tibfibR.makeGFFromElements(
-                'tibia-r',
-                TIBFIB_SUBMESH_ELEMS['tibia'],
-                TIBFIB_BASISTYPES,
-                )
+            'tibia-r',
+            TIBFIB_SUBMESH_ELEMS['tibia'],
+            TIBFIB_BASISTYPES,
+        )
         fibR = tibfibR.makeGFFromElements(
-                'fibula-r',
-                TIBFIB_SUBMESH_ELEMS['fibula'],
-                TIBFIB_BASISTYPES,
-                )
+            'fibula-r',
+            TIBFIB_SUBMESH_ELEMS['fibula'],
+            TIBFIB_BASISTYPES,
+        )
 
         return tibL, fibL, tibR, fibR
 
@@ -328,65 +335,66 @@ class LLStepData(object):
         """
         gf = self.LL.models['pelvis'].gf
         lhgf = gf.makeGFFromElements(
-                    'hemipelvis-left',
-                    PELVIS_SUBMESH_ELEMS['LH'],
-                    PELVIS_BASISTYPES
-                    )
+            'hemipelvis-left',
+            PELVIS_SUBMESH_ELEMS['LH'],
+            PELVIS_BASISTYPES
+        )
         sacgf = gf.makeGFFromElements(
-                    'sacrum',
-                    PELVIS_SUBMESH_ELEMS['sac'],
-                    PELVIS_BASISTYPES
-                    )
+            'sacrum',
+            PELVIS_SUBMESH_ELEMS['sac'],
+            PELVIS_BASISTYPES
+        )
         rhgf = gf.makeGFFromElements(
-                    'hemipelvis-right',
-                    PELVIS_SUBMESH_ELEMS['RH'],
-                    PELVIS_BASISTYPES
-                    )
+            'hemipelvis-right',
+            PELVIS_SUBMESH_ELEMS['RH'],
+            PELVIS_BASISTYPES
+        )
         return lhgf, sacgf, rhgf
 
     def _createNestedPelvis(self, gf):
         """ Given a flattened pelvis model, create a hierarchical model
         """
         newgf = geometric_field.geometric_field(
-                    gf.name, 3,
-                    field_dimensions=2,
-                    field_basis=PELVIS_BASISTYPES
-                    )
+            gf.name, 3,
+            field_dimensions=2,
+            field_basis=PELVIS_BASISTYPES
+        )
 
         for subname in PELVIS_SUBMESHES:
             subgf = gf.makeGFFromElements(
-                        subname,
-                        PELVIS_SUBMESH_ELEMS[subname],
-                        PELVIS_BASISTYPES
-                        )
+                subname,
+                PELVIS_SUBMESH_ELEMS[subname],
+                PELVIS_BASISTYPES
+            )
             newgf.add_element_with_parameters(
                 subgf.ensemble_field_function,
                 subgf.field_parameters,
                 tol=0.0
-                )
+            )
 
         return newgf
 
     @property
     def validRegistrationModes(self):
-        return self._validRegistrationModes  
-    
+        return self._validRegistrationModes
+
     @property
     def registrationMode(self):
         return self.config['registration_mode']
         # return self._registrationMode
-    
+
     @registrationMode.setter
     def registrationMode(self, value):
         if value in self.validRegistrationModes:
             self.config['registration_mode'] = value
         else:
-            raise ValueError('Invalid registration mode. Given {}, must be one of {}'.format(value, self.validRegistrationModes))
+            raise ValueError(
+                'Invalid registration mode. Given {}, must be one of {}'.format(value, self.validRegistrationModes))
 
     @property
     def landmarkNames(self):
         return sorted(self.config['landmarks'].keys())
-    
+
     @property
     def targetLandmarkNames(self):
         # return self._targetLandmarkNames
@@ -422,13 +430,13 @@ class LLStepData(object):
 
         _targetLandmarks = []
         for n in self.targetLandmarkNames:
-            if (n is None) or (len(n)==0):
+            if (n is None) or (len(n) == 0):
                 pass
             else:
                 _targetLandmarks.append(preprocd[n])
         self._targetLandmarks = np.array(_targetLandmarks)
         return self._targetLandmarks
-    
+
     @property
     def inputModelDict(self):
         return self._inputModelDict
@@ -464,7 +472,7 @@ class LLStepData(object):
     @property
     def nShapeModes(self):
         return int(self.config['pcs_to_fit'])
-    
+
     @nShapeModes.setter
     def nShapeModes(self, n):
         self.config['pcs_to_fit'] = str(n)
@@ -473,7 +481,7 @@ class LLStepData(object):
 
     @property
     def kneeCorr(self):
-        return self.config['knee_corr']=='True'
+        return self.config['knee_corr'] == 'True'
 
     @kneeCorr.setter
     def kneeCorr(self, value):
@@ -486,7 +494,7 @@ class LLStepData(object):
 
     @property
     def kneeDOF(self):
-        return self.config['knee_dof']=='True'
+        return self.config['knee_dof'] == 'True'
 
     @kneeDOF.setter
     def kneeDOF(self, value):
@@ -508,9 +516,9 @@ class LLStepData(object):
             def callback(output):
                 callbackSignal.emit(output)
         else:
-            callback=None
+            callback = None
 
-        if mode=='shapemodel':
+        if mode == 'shapemodel':
             if self.LL.shape_modes is None:
                 raise RuntimeError('Number of pcs to fit not defined')
             else:
@@ -526,12 +534,12 @@ class LLStepData(object):
             raise ValueError('Invalid registration mode: {}'.format(mode))
         return output
 
-def _registerShapeModel(lldata, callback=None):
 
+def _registerShapeModel(lldata, callback=None):
     # if lladata.LL.shape_model_x has not changed from the default,
     # use None for x0 so that it is automatically calculated
     x0Temp = lldata.LL.shape_model_x
-    if np.all(x0Temp==0.0):
+    if np.all(x0Temp == 0.0):
         x0 = None
     else:
         x0 = x0Temp
@@ -539,28 +547,28 @@ def _registerShapeModel(lldata, callback=None):
 
     # do the fit
     print(lldata.LL.shape_modes, lldata.mWeight)
-    xFitted,\
-    optLandmarkDist,\
-    optLandmarkRMSE,\
+    xFitted, \
+    optLandmarkDist, \
+    optLandmarkRMSE, \
     fitInfo = lowerlimbatlasfit2side.fit(
-                    lldata.LL,
-                    lldata.targetLandmarks,
-                    lldata.landmarkNames,
-                    lldata.LL.shape_modes,
-                    lldata.mWeight,
-                    x0=x0,
-                    minimise_args=lldata.minArgs,
-                    callback=callback,
-                    )
+        lldata.LL,
+        lldata.targetLandmarks,
+        lldata.landmarkNames,
+        lldata.LL.shape_modes,
+        lldata.mWeight,
+        x0=x0,
+        minimise_args=lldata.minArgs,
+        callback=callback,
+    )
     lldata.landmarkRMSE = optLandmarkRMSE
     lldata.landmarkErrors = optLandmarkDist
-    lldata.fitMDist =  fitInfo['mahalanobis_distance']
+    lldata.fitMDist = fitInfo['mahalanobis_distance']
     lldata.LL.shape_model_x = xFitted[-1]
-    print('new X:'+str(lldata.LL.shape_model_x))
+    print('new X:' + str(lldata.LL.shape_model_x))
     return xFitted, optLandmarkDist, optLandmarkRMSE, fitInfo
 
 # def _registerUniformScaling(lldata, callback=None):
-    
+
 #     # if lladata.T.uniformScalingX has not changed from the default,
 #     # use None for x0 so that it is automatically calculated
 #     x0Temp = lldata.T.uniformScalingX
@@ -591,7 +599,7 @@ def _registerShapeModel(lldata, callback=None):
 #     return xFitted, optLandmarkDist, optLandmarkRMSE, fitInfo
 
 # def _registerPerBoneScaling(lldata, callback=None):
-    
+
 #     # if lladata.T.perboneScalingX has not changed from the default,
 #     # use None for x0 so that it is automatically calculated
 #     x0Temp = lldata.T.perBoneScalingX
