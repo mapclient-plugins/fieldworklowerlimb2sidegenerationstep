@@ -80,7 +80,7 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         self._data.loadData()
         self._data.updateFromConfig()
         print('LL estimation configs:')
-        print(self._data.config)
+        print((self._data.config))
         if self._config['GUI'] == 'True':
             # start gui
             self._widget = LowerLimbGenerationDialog(self._data, self._doneExecution)
@@ -105,7 +105,7 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         provides port for this step then the index can be ignored.
         '''
         if index == 1:
-            print('outputting {}'.format(self._data.outputModelDict.keys()))
+            print(('outputting {}'.format(list(self._data.outputModelDict.keys()))))
             return self._data.outputModelDict
         else:
             return self._data.LL

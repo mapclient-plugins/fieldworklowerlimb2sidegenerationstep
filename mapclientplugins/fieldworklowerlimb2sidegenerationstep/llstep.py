@@ -50,15 +50,15 @@ validModelLandmarks = (
 
 SELF_DIRECTORY = os.path.split(__file__)[0]
 PELVIS_SUBMESHES = ('RH', 'LH', 'sac')
-PELVIS_SUBMESH_ELEMS = {'RH': range(0, 73),
-                        'LH': range(73, 146),
-                        'sac': range(146, 260),
+PELVIS_SUBMESH_ELEMS = {'RH': list(range(0, 73)),
+                        'LH': list(range(73, 146)),
+                        'sac': list(range(146, 260)),
                         }
 PELVIS_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
 TIBFIB_SUBMESHES = ('tibia', 'fibula')
-TIBFIB_SUBMESH_ELEMS = {'tibia': range(0, 46),
-                        'fibula': range(46, 88),
+TIBFIB_SUBMESH_ELEMS = {'tibia': list(range(0, 46)),
+                        'fibula': list(range(46, 88)),
                         }
 TIBFIB_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
@@ -222,7 +222,7 @@ class LLStepData(object):
                     self.markerRadius, self.skinPad, *targetCoords
                 )
             except mocap_landmark_preprocess.InsufficientLandmarksError:
-                print('Insufficient landmarks for preprocessing {}'.format(body))
+                print(('Insufficient landmarks for preprocessing {}'.format(body)))
                 skipBody = True
 
             # save updated coordinates
@@ -240,9 +240,9 @@ class LLStepData(object):
         preprocdLandmarks = {}
 
         # fill with original coordinates
-        for nInput in self.config['landmarks'].values():
+        for nInput in list(self.config['landmarks'].values()):
             nInputCoords = self.inputLandmarks.get(nInput)
-            print('{}: {}'.format(nInput, nInputCoords))
+            print(('{}: {}'.format(nInput, nInputCoords)))
             preprocdLandmarks[nInput] = nInputCoords
 
         # pelvis
@@ -283,7 +283,7 @@ class LLStepData(object):
 
     @property
     def outputModelDict(self):
-        self._outputModelDict = dict([(m[0], m[1].gf) for m in self.LL.models.items()])
+        self._outputModelDict = dict([(m[0], m[1].gf) for m in list(self.LL.models.items())])
 
         # add pelvis submeshes
         self._outputModelDict['pelvis flat'] = copy.deepcopy(self._outputModelDict['pelvis'])
@@ -522,7 +522,7 @@ class LLStepData(object):
             if self.LL.shape_modes is None:
                 raise RuntimeError('Number of pcs to fit not defined')
             else:
-                print('shape models {}'.format(self.LL.shape_modes))
+                print(('shape models {}'.format(self.LL.shape_modes)))
             if self.mWeight is None:
                 raise RuntimeError('Mahalanobis penalty weight not defined')
             output = _registerShapeModel(self, callback)
@@ -546,7 +546,7 @@ def _registerShapeModel(lldata, callback=None):
     print(x0)
 
     # do the fit
-    print(lldata.LL.shape_modes, lldata.mWeight)
+    print((lldata.LL.shape_modes, lldata.mWeight))
     xFitted, \
     optLandmarkDist, \
     optLandmarkRMSE, \
@@ -564,7 +564,7 @@ def _registerShapeModel(lldata, callback=None):
     lldata.landmarkErrors = optLandmarkDist
     lldata.fitMDist = fitInfo['mahalanobis_distance']
     lldata.LL.shape_model_x = xFitted[-1]
-    print('new X:' + str(lldata.LL.shape_model_x))
+    print(('new X:' + str(lldata.LL.shape_model_x)))
     return xFitted, optLandmarkDist, optLandmarkRMSE, fitInfo
 
 # def _registerUniformScaling(lldata, callback=None):

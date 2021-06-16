@@ -105,7 +105,7 @@ class LowerLimbGenerationDialog(QDialog):
 
     def _initViewerObjects(self):
         self._objects = MayaviViewerObjectsContainer()
-        for mn, m in self.data.LL.models.items():
+        for mn, m in list(self.data.LL.models.items()):
             self._objects.addObject(mn,
                                     MayaviViewerFieldworkModel(mn,
                                                                m.gf,
@@ -115,7 +115,7 @@ class LowerLimbGenerationDialog(QDialog):
                                     )
         # 'none' is first elem in self._landmarkNames, so skip that
         for ln, lcoords in sorted(self.data.inputLandmarks.items()):
-            print('{} {}'.format(ln, lcoords))
+            print(('{} {}'.format(ln, lcoords)))
             self._objects.addObject(ln, MayaviViewerLandmark(ln,
                                                              lcoords,
                                                              renderArgs=self._landmarkRenderArgs
@@ -123,7 +123,7 @@ class LowerLimbGenerationDialog(QDialog):
                                     )
         for li, lcoords in enumerate(self.data.targetLandmarks):
             ln = self.data.targetLandmarkNames[li] + '_adjusted'
-            print('{} {} {}'.format(li, ln, lcoords))
+            print(('{} {} {}'.format(li, ln, lcoords)))
             self._objects.addObject(ln, MayaviViewerLandmark(ln,
                                                              lcoords,
                                                              renderArgs=self._landmarkAdjRenderArgs
@@ -361,7 +361,7 @@ class LowerLimbGenerationDialog(QDialog):
             row += 1
 
         # Add bone models
-        for mn in self.data.LL.models.keys():
+        for mn in list(self.data.LL.models.keys()):
             self._addObjectToTable(row, mn, self._objects.getObject(mn), checked=True)
             row += 1
 
@@ -370,7 +370,7 @@ class LowerLimbGenerationDialog(QDialog):
 
     def _addObjectToTable(self, row, name, obj, checked=True):
         typeName = obj.typeName
-        print('adding to table: %s (%s)' % (name, typeName))
+        print(('adding to table: %s (%s)' % (name, typeName)))
         tableItem = QTableWidgetItem(name)
         if checked:
             tableItem.setCheckState(Qt.Checked)
@@ -386,7 +386,7 @@ class LowerLimbGenerationDialog(QDialog):
             self.objectTableHeaderColumns['Visible']
         ).text()
         print(selectedRow)
-        print(self.selectedObjectName)
+        print((self.selectedObjectName))
 
     def _visibleBoxChanged(self, tableItem):
         # get name of object selected
@@ -398,12 +398,12 @@ class LowerLimbGenerationDialog(QDialog):
             name = tableItem.text()
             visible = tableItem.checkState().name == 'Checked'
 
-            print('visibleboxchanged name', name)
-            print('visibleboxchanged visible', visible)
+            print(('visibleboxchanged name', name))
+            print(('visibleboxchanged visible', visible))
 
             # toggle visibility
             obj = self._objects.getObject(name)
-            print(obj.name)
+            print((obj.name))
             if obj.sceneObject:
                 print('changing existing visibility')
                 obj.setVisibility(visible)
@@ -578,7 +578,7 @@ class LowerLimbGenerationDialog(QDialog):
             name = tableItem.text()
             visible = tableItem.checkState().name == 'Checked'
             obj = self._objects.getObject(name)
-            print(obj.name)
+            print((obj.name))
             if obj.sceneObject:
                 print('changing existing visibility')
                 obj.setVisibility(visible)
