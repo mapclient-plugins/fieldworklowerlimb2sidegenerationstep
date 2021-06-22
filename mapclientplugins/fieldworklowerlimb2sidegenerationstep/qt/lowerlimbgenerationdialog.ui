@@ -423,100 +423,7 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <layout class="QGridLayout" name="gridLayout_3">
-                 <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_pc1">
-                   <property name="minimum">
-                    <double>-99.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>99.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="3">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_pc4">
-                   <property name="minimum">
-                    <double>-99.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>99.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_pc3">
-                   <property name="minimum">
-                    <double>-99.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>99.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="3">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_pc2">
-                   <property name="minimum">
-                    <double>-99.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>99.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label">
-                   <property name="text">
-                    <string>1</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QLabel" name="label_2">
-                   <property name="text">
-                    <string>2</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_3">
-                   <property name="text">
-                    <string>3</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QLabel" name="label_4">
-                   <property name="text">
-                    <string>4</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <layout class="QGridLayout" name="gridLayout_3"/>
                </item>
                <item row="6" column="0">
                 <widget class="QLabel" name="label_5">
@@ -627,8 +534,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>428</width>
-              <height>379</height>
+              <width>280</width>
+              <height>328</height>
              </rect>
             </property>
             <attribute name="label">
@@ -655,6 +562,9 @@
                 <widget class="QSpinBox" name="spinBox_pcsToFit">
                  <property name="minimum">
                   <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>4</number>
                  </property>
                 </widget>
                </item>
@@ -793,8 +703,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>428</width>
-              <height>379</height>
+              <width>191</width>
+              <height>143</height>
              </rect>
             </property>
             <attribute name="label">
@@ -913,10 +823,6 @@
   <tabstop>pushButton_removeLandmark</tabstop>
   <tabstop>doubleSpinBox_markerRadius</tabstop>
   <tabstop>doubleSpinBox_skinPad</tabstop>
-  <tabstop>doubleSpinBox_pc1</tabstop>
-  <tabstop>doubleSpinBox_pc2</tabstop>
-  <tabstop>doubleSpinBox_pc3</tabstop>
-  <tabstop>doubleSpinBox_pc4</tabstop>
   <tabstop>doubleSpinBox_scaling</tabstop>
   <tabstop>doubleSpinBox_ptx</tabstop>
   <tabstop>doubleSpinBox_pty</tabstop>
