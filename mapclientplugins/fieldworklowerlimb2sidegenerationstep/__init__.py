@@ -1,6 +1,6 @@
-'''
+"""
 MAP Client Plugin
-'''
+"""
 __version__ = '1.0.3'
 __author__ = 'Ju Zhang'
 __stepname__ = 'Fieldwork Lower Limb 2 Side Generation'

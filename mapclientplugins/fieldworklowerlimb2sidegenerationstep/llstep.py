@@ -171,7 +171,7 @@ class LLStepData(object):
         else:
             self.LL.disable_knee_adduction_correction()
         if self.kneeDOF:
-            self.LL.enable_knee_adduction_dof
+            self.LL.enable_knee_adduction_dof()
         else:
             self.LL.disable_knee_adduction_dof()
 
