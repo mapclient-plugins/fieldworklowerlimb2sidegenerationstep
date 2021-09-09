@@ -54,6 +54,9 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#provides',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#gias-lowerlimb'))
+        self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
+                      'http://physiomeproject.org/workflow/1.0/rdf-schema#provides',
+                      'http://physiomeproject.org/workflow/1.0/rdf-schema#landmarks'))
         self._config = {}
         self._config['identifier'] = ''
         self._config['GUI'] = 'True'
@@ -106,8 +109,14 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         if index == 1:
             print(('outputting {}'.format(list(self._data.outputModelDict.keys()))))
             return self._data.outputModelDict
-        else:
+
+        elif index == 2:
             return self._data.LL
+
+        elif index == 3:
+            # We may want to replace, or update the dictionary below to make
+            # sure that the landmarks we are interested in are being included.
+            return self._data.landmark_dict
 
     def configure(self):
         """

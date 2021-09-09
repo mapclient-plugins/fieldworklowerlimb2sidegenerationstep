@@ -141,6 +141,7 @@ class LLStepData(object):
         # self._targetLandmarksNames = None # list of strings matching keys in self.inputLandmarks
         self._targetLandmarks = None
         self.LL = lowerlimbatlas.LowerLimbAtlas('lowerlimb')
+        self.landmark_dict = None
 
         self.inputPCs = None
         self._inputModelDict = None
@@ -427,6 +428,7 @@ class LLStepData(object):
         print('preprocd')
         print(preprocd)
         # self._targetLandmarks = np.array([preprocd[n] for n in self.targetLandmarkNames])
+        self.landmark_dict = preprocd
 
         _targetLandmarks = []
         for n in self.targetLandmarkNames:
