@@ -57,8 +57,8 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#provides',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#landmarks'))
-
         self._config = {}
+        self._config['identifier'] = ''
         self._config['GUI'] = 'True'
         self._config['registration_mode'] = 'shapemodel'
         self._config['pcs_to_fit'] = '1'
@@ -71,8 +71,6 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         for l in DEFAULT_MODEL_LANDMARKS:
             self._config['landmarks'][l] = ''
 
-        self._identifier = ''
-
         self._data = llstep.LLStepData(self._config)
 
     def execute(self):
@@ -81,6 +79,7 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         Make sure you call the _doneExecution() method when finished.  This method
         may be connected up to a button in a widget for example.
         """
+        # Put your execute step code here before calling the '_doneExecution' method.
         self._data.loadData()
         self._data.updateFromConfig()
         print('LL estimation configs:')
@@ -128,6 +127,7 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
             self._configured = True
         """
         dlg = ConfigureDialog(self._main_window)
+        dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
         dlg.setModal(True)
@@ -143,13 +143,13 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         """
         The identifier is a string that must be unique within a workflow.
         """
-        return self._identifier
+        return self._config['identifier']
 
     def setIdentifier(self, identifier):
         """
         The framework will set the identifier for this step when it is loaded.
         """
-        self._identifier = identifier
+        self._config['identifier'] = identifier
 
     def serialize(self):
         """
@@ -166,5 +166,6 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         self._config.update(json.loads(string))
 
         d = ConfigureDialog()
+        d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()

@@ -25,6 +25,14 @@ class ConfigureDialog(QtWidgets.QDialog):
         self._ui = Ui_Dialog()
         self._ui.setupUi(self)
 
+        # Keep track of the previous identifier so that we can track changes
+        # and know how many occurrences of the current identifier there should
+        # be.
+        self._previousIdentifier = ''
+        # Set a place holder for a callable that will get set from the step.
+        # We will use this method to decide whether the identifier is unique.
+        self.identifierOccursCount = None
+
         self.landmarkTable = LandmarkComboBoxTextTable(
             validModelLandmarks,
             self._ui.tableWidgetLandmarks,
@@ -36,6 +44,7 @@ class ConfigureDialog(QtWidgets.QDialog):
             self._ui.comboBox_regmode.addItem(regmode)
 
     def _makeConnections(self):
+        self._ui.lineEdit_id.textChanged.connect(self.validate)
         self._ui.pushButton_addLandmark.clicked.connect(self.landmarkTable.addLandmark)
         self._ui.pushButton_removeLandmark.clicked.connect(self.landmarkTable.removeLandmark)
 
@@ -60,8 +69,16 @@ class ConfigureDialog(QtWidgets.QDialog):
         set the style sheet to the INVALID_STYLE_SHEET.  Return the outcome of the
         overall validity of the configuration.
         """
-        # As it is, the configuration cannot be invalid.
-        return True
+        # Determine if the current identifier is unique throughout the workflow
+        # The identifierOccursCount method is part of the interface to the workflow framework.
+        value = self.identifierOccursCount(self._ui.lineEdit_id.text())
+        valid = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.lineEdit_id.text())
+        if valid:
+            self._ui.lineEdit_id.setStyleSheet(DEFAULT_STYLE_SHEET)
+        else:
+            self._ui.lineEdit_id.setStyleSheet(INVALID_STYLE_SHEET)
+
+        return valid
 
     def getConfig(self):
         """
@@ -69,7 +86,9 @@ class ConfigureDialog(QtWidgets.QDialog):
         set the _previousIdentifier value so that we can check uniqueness of the
         identifier over the whole of the workflow.
         """
+        self._previousIdentifier = self._ui.lineEdit_id.text()
         config = {}
+        config['identifier'] = self._ui.lineEdit_id.text()
         config['registration_mode'] = self._ui.comboBox_regmode.currentText()
         config['pcs_to_fit'] = str(self._ui.spinBox_pcsToFit.value())
         config['mweight'] = str(self._ui.doubleSpinBox_mWeight.value())
@@ -92,8 +111,12 @@ class ConfigureDialog(QtWidgets.QDialog):
 
     def setConfig(self, config):
         """
-        Set the current value of the configuration for the dialog.
+        Set the current value of the configuration for the dialog.  Also
+        set the _previousIdentifier value so that we can check uniqueness of the
+        identifier over the whole of the workflow.
         """
+        self._previousIdentifier = config['identifier']
+        self._ui.lineEdit_id.setText(config['identifier'])
         self._ui.comboBox_regmode.setCurrentIndex(
             REG_MODES.index(config['registration_mode'])
         )
