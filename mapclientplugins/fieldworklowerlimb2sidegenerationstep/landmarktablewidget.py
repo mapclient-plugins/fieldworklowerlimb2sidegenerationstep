@@ -1,7 +1,7 @@
-'''
+"""
 MAP Client, a program to generate detailed musculoskeletal models for OpenSim.
     Copyright (C) 2012  University of Auckland
-    
+
 This file is part of MAP Client. (http://launchpad.net/mapclient)
 
     MAP Client is free software: you can redistribute it and/or modify
@@ -16,10 +16,9 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 
     You should have received a copy of the GNU General Public License
     along with MAP Client.  If not, see <http://www.gnu.org/licenses/>..
-'''
+"""
 
-from PySide2.QtWidgets import QDialog, QFileDialog, QDialogButtonBox, \
-    QAbstractItemView, QTableWidgetItem, QComboBox
+from PySide2.QtWidgets import QAbstractItemView, QTableWidgetItem, QComboBox
 
 
 class LandmarkComboBoxTable(object):
@@ -48,7 +47,7 @@ class LandmarkComboBoxTable(object):
         self._comboBoxes = []  # (model, input)
 
         if landmarkPairs is not None:
-            for m, i in landmarkPairs.items():
+            for m, i in list(landmarkPairs.items()):
                 self.addLandmark(m, i)
 
     def _initTableWidget(self):
@@ -67,7 +66,7 @@ class LandmarkComboBoxTable(object):
         combInput = self._addComboBox(self._rowCount, 1, self.inputLandmarks, inputLandmark)
         self._comboBoxes.append((combMode, combInput))
         self._rowCount += 1
-        print('row added {}'.format(self._rowCount))
+        print(('row added {}'.format(self._rowCount)))
 
     def removeLandmark(self, selectedRow=None):
         """
@@ -117,7 +116,7 @@ class LandmarkComboBoxTable(object):
             if currentItem in items:
                 comb.setCurrentIndex(items.index(currentItem))
             else:
-                print('invalid item: {}'.format(currentItem))
+                print(('invalid item: {}'.format(currentItem)))
 
         return comb
 
@@ -147,7 +146,7 @@ class LandmarkComboBoxTextTable(object):
         self._rowElems = []  # (model, input)
 
         if landmarkPairs is not None:
-            for m, i in landmarkPairs.items():
+            for m, i in list(landmarkPairs.items()):
                 self.addLandmark(m, i)
 
     def _initTableWidget(self):
@@ -166,7 +165,7 @@ class LandmarkComboBoxTextTable(object):
         elemInput = self._addTableItem(self._rowCount, 1, inputLandmark)
         self._rowElems.append((combMode, elemInput))
         self._rowCount += 1
-        print('row added {}'.format(self._rowCount))
+        print(('row added {}'.format(self._rowCount)))
 
     def removeLandmark(self, selectedRow=None):
         """
@@ -216,7 +215,7 @@ class LandmarkComboBoxTextTable(object):
             if currentItem in items:
                 comb.setCurrentIndex(items.index(currentItem))
             else:
-                print('invalid item: {}'.format(currentItem))
+                print(('invalid item: {}'.format(currentItem)))
 
         return comb
 

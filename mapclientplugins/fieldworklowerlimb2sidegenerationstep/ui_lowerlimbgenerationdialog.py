@@ -288,62 +288,6 @@ class Ui_Dialog(object):
 
         self.gridLayout_3 = QGridLayout()
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.doubleSpinBox_pc1 = QDoubleSpinBox(self.page)
-        self.doubleSpinBox_pc1.setObjectName(u"doubleSpinBox_pc1")
-        self.doubleSpinBox_pc1.setMinimum(-99.000000000000000)
-        self.doubleSpinBox_pc1.setMaximum(99.000000000000000)
-        self.doubleSpinBox_pc1.setSingleStep(0.100000000000000)
-
-        self.gridLayout_3.addWidget(self.doubleSpinBox_pc1, 1, 1, 1, 1)
-
-        self.doubleSpinBox_pc4 = QDoubleSpinBox(self.page)
-        self.doubleSpinBox_pc4.setObjectName(u"doubleSpinBox_pc4")
-        self.doubleSpinBox_pc4.setMinimum(-99.000000000000000)
-        self.doubleSpinBox_pc4.setMaximum(99.000000000000000)
-        self.doubleSpinBox_pc4.setSingleStep(0.100000000000000)
-
-        self.gridLayout_3.addWidget(self.doubleSpinBox_pc4, 2, 3, 1, 1)
-
-        self.doubleSpinBox_pc3 = QDoubleSpinBox(self.page)
-        self.doubleSpinBox_pc3.setObjectName(u"doubleSpinBox_pc3")
-        self.doubleSpinBox_pc3.setMinimum(-99.000000000000000)
-        self.doubleSpinBox_pc3.setMaximum(99.000000000000000)
-        self.doubleSpinBox_pc3.setSingleStep(0.100000000000000)
-
-        self.gridLayout_3.addWidget(self.doubleSpinBox_pc3, 2, 1, 1, 1)
-
-        self.doubleSpinBox_pc2 = QDoubleSpinBox(self.page)
-        self.doubleSpinBox_pc2.setObjectName(u"doubleSpinBox_pc2")
-        self.doubleSpinBox_pc2.setMinimum(-99.000000000000000)
-        self.doubleSpinBox_pc2.setMaximum(99.000000000000000)
-        self.doubleSpinBox_pc2.setSingleStep(0.100000000000000)
-
-        self.gridLayout_3.addWidget(self.doubleSpinBox_pc2, 1, 3, 1, 1)
-
-        self.label = QLabel(self.page)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label, 1, 0, 1, 1)
-
-        self.label_2 = QLabel(self.page)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_2, 1, 2, 1, 1)
-
-        self.label_3 = QLabel(self.page)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_3, 2, 0, 1, 1)
-
-        self.label_4 = QLabel(self.page)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.gridLayout_3.addWidget(self.label_4, 2, 2, 1, 1)
-
 
         self.formLayout_5.setLayout(1, QFormLayout.FieldRole, self.gridLayout_3)
 
@@ -430,7 +374,7 @@ class Ui_Dialog(object):
         self.toolBox.addItem(self.page, u"Manual Registration")
         self.page_reg = QWidget()
         self.page_reg.setObjectName(u"page_reg")
-        self.page_reg.setGeometry(QRect(0, 0, 428, 379))
+        self.page_reg.setGeometry(QRect(0, 0, 280, 328))
         self.verticalLayout_2 = QVBoxLayout(self.page_reg)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.formLayout_4 = QFormLayout()
@@ -448,6 +392,7 @@ class Ui_Dialog(object):
         self.spinBox_pcsToFit = QSpinBox(self.page_reg)
         self.spinBox_pcsToFit.setObjectName(u"spinBox_pcsToFit")
         self.spinBox_pcsToFit.setMinimum(1)
+        self.spinBox_pcsToFit.setValue(4)
 
         self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.spinBox_pcsToFit)
 
@@ -550,7 +495,7 @@ class Ui_Dialog(object):
         self.toolBox.addItem(self.page_reg, u"Auto Registration")
         self.Screenshot = QWidget()
         self.Screenshot.setObjectName(u"Screenshot")
-        self.Screenshot.setGeometry(QRect(0, 0, 428, 379))
+        self.Screenshot.setGeometry(QRect(0, 0, 191, 143))
         self.formLayout = QFormLayout(self.Screenshot)
         self.formLayout.setObjectName(u"formLayout")
         self.pixelsXLabel = QLabel(self.Screenshot)
@@ -624,11 +569,7 @@ class Ui_Dialog(object):
         QWidget.setTabOrder(self.pushButton_addLandmark, self.pushButton_removeLandmark)
         QWidget.setTabOrder(self.pushButton_removeLandmark, self.doubleSpinBox_markerRadius)
         QWidget.setTabOrder(self.doubleSpinBox_markerRadius, self.doubleSpinBox_skinPad)
-        QWidget.setTabOrder(self.doubleSpinBox_skinPad, self.doubleSpinBox_pc1)
-        QWidget.setTabOrder(self.doubleSpinBox_pc1, self.doubleSpinBox_pc2)
-        QWidget.setTabOrder(self.doubleSpinBox_pc2, self.doubleSpinBox_pc3)
-        QWidget.setTabOrder(self.doubleSpinBox_pc3, self.doubleSpinBox_pc4)
-        QWidget.setTabOrder(self.doubleSpinBox_pc4, self.doubleSpinBox_scaling)
+        QWidget.setTabOrder(self.doubleSpinBox_skinPad, self.doubleSpinBox_scaling)
         QWidget.setTabOrder(self.doubleSpinBox_scaling, self.doubleSpinBox_ptx)
         QWidget.setTabOrder(self.doubleSpinBox_ptx, self.doubleSpinBox_pty)
         QWidget.setTabOrder(self.doubleSpinBox_pty, self.doubleSpinBox_ptz)
@@ -692,10 +633,6 @@ class Ui_Dialog(object):
         self.label_20.setText(QCoreApplication.translate("Dialog", u"Pelvis Rot.", None))
         self.label_21.setText(QCoreApplication.translate("Dialog", u"Hip Rot. Left", None))
         self.label_22.setText(QCoreApplication.translate("Dialog", u"Knee Rot. Left", None))
-        self.label.setText(QCoreApplication.translate("Dialog", u"1", None))
-        self.label_2.setText(QCoreApplication.translate("Dialog", u"2", None))
-        self.label_3.setText(QCoreApplication.translate("Dialog", u"3", None))
-        self.label_4.setText(QCoreApplication.translate("Dialog", u"4", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u"Hip Rot. Right", None))
         self.label_7.setText(QCoreApplication.translate("Dialog", u"Knee Rot. Right", None))
         self.pushButton_manual_reset.setText(QCoreApplication.translate("Dialog", u"Reset", None))
