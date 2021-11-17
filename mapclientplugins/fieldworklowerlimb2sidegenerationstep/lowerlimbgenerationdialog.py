@@ -27,7 +27,7 @@ from PySide2.QtCore import QThread, Signal
 
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.ui_lowerlimbgenerationdialog import Ui_Dialog
 
-from gias2.mappluginutils.mayaviviewer import MayaviViewerObjectsContainer, MayaviViewerLandmark, \
+from gias3.mapclientpluginutilities.viewers import MayaviViewerObjectsContainer, MayaviViewerLandmark, \
     MayaviViewerFieldworkModel, colours
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.landmarktablewidget import LandmarkComboBoxTable
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.llstep import validModelLandmarks
@@ -107,7 +107,7 @@ class LowerLimbGenerationDialog(QDialog):
                                     MayaviViewerFieldworkModel(mn,
                                                                m.gf,
                                                                self._modelDisc,
-                                                               renderArgs=self._modelRenderArgs
+                                                               render_args=self._modelRenderArgs
                                                                )
                                     )
         # 'none' is first elem in self._landmarkNames, so skip that
@@ -115,7 +115,7 @@ class LowerLimbGenerationDialog(QDialog):
             print(('{} {}'.format(ln, lcoords)))
             self._objects.addObject(ln, MayaviViewerLandmark(ln,
                                                              lcoords,
-                                                             renderArgs=self._landmarkRenderArgs
+                                                             render_args=self._landmarkRenderArgs
                                                              )
                                     )
         for li, lcoords in enumerate(self.data.targetLandmarks):
@@ -123,7 +123,7 @@ class LowerLimbGenerationDialog(QDialog):
             print(('{} {} {}'.format(li, ln, lcoords)))
             self._objects.addObject(ln, MayaviViewerLandmark(ln,
                                                              lcoords,
-                                                             renderArgs=self._landmarkAdjRenderArgs
+                                                             render_args=self._landmarkAdjRenderArgs
                                                              )
                                     )
 

@@ -5,12 +5,12 @@ import os
 import numpy as np
 import copy
 
-from gias2.fieldwork.field import geometric_field
-from gias2.musculoskeletal import mocap_landmark_preprocess
-from gias2.musculoskeletal.bonemodels import lowerlimbatlasfit2side
-from gias2.musculoskeletal.bonemodels import lowerlimbatlas
+from gias3.fieldwork.field import geometric_field
+from gias3.musculoskeletal import mocap_landmark_preprocess
+from gias3.musculoskeletal.bonemodels import lowerlimbatlasfit2side
+from gias3.musculoskeletal.bonemodels import lowerlimbatlas
 
-# from gias2.musculoskeletal.bonemodels import lowerlimbatlasfitscaling
+# from gias3.musculoskeletal.bonemodels import lowerlimbatlasfitscaling
 
 validModelLandmarks = (
     'femur-GT-l',

@@ -66,7 +66,7 @@ class LandmarkComboBoxTable(object):
         combInput = self._addComboBox(self._rowCount, 1, self.inputLandmarks, inputLandmark)
         self._comboBoxes.append((combMode, combInput))
         self._rowCount += 1
-        print(('row added {}'.format(self._rowCount)))
+        # print(('row added {}'.format(self._rowCount)))
 
     def removeLandmark(self, selectedRow=None):
         """
@@ -165,7 +165,7 @@ class LandmarkComboBoxTextTable(object):
         elemInput = self._addTableItem(self._rowCount, 1, inputLandmark)
         self._rowElems.append((combMode, elemInput))
         self._rowCount += 1
-        print(('row added {}'.format(self._rowCount)))
+        # print(('row added {}'.format(self._rowCount)))
 
     def removeLandmark(self, selectedRow=None):
         """
