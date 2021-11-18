@@ -50,72 +50,80 @@ validModelLandmarks = (
 
 SELF_DIRECTORY = os.path.split(__file__)[0]
 PELVIS_SUBMESHES = ('RH', 'LH', 'sac')
-PELVIS_SUBMESH_ELEMS = {'RH': list(range(0, 73)),
-                        'LH': list(range(73, 146)),
-                        'sac': list(range(146, 260)),
-                        }
+PELVIS_SUBMESH_ELEMS = {
+    'RH': list(range(0, 73)),
+    'LH': list(range(73, 146)),
+    'sac': list(range(146, 260)),
+}
 PELVIS_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
 TIBFIB_SUBMESHES = ('tibia', 'fibula')
-TIBFIB_SUBMESH_ELEMS = {'tibia': list(range(0, 46)),
-                        'fibula': list(range(46, 88)),
-                        }
+TIBFIB_SUBMESH_ELEMS = {
+    'tibia': list(range(0, 46)),
+    'fibula': list(range(46, 88)),
+}
 TIBFIB_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
 
 class LLStepData(object):
     _shapeModelFilenameRight = os.path.join(SELF_DIRECTORY, 'data/shape_models/LLP26_right_mirrored_from_left_rigid.pc')
     _boneModelFilenamesRight = {
-        'pelvis': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
-                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
-                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
-                   ),
+        'pelvis': (
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
+        ),
         'femur': (
-        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.ens'),
-        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.mesh'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.mesh'),
         ),
         'patella': (
-        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.ens'),
-        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.mesh'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.mesh'),
         ),
-        'tibiafibula': (os.path.join(SELF_DIRECTORY,
-                                     'data/atlas_meshes/tibia_fibula_cubic_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.ens'),
-                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
-                        ),
-        }
+        'tibiafibula': (
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
+        ),
+    }
     _shapeModelFilenameLeft = os.path.join(SELF_DIRECTORY, 'data/shape_models/LLP26_rigid.pc')
     _boneModelFilenamesLeft = {
-        'pelvis': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
-                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
-                   os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
-                   ),
-        'femur': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_mean_rigid_LLP26.geof'),
-                  os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.ens'),
-                  os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.mesh'),
-                  ),
-        'patella': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_left_mean_rigid_LLP26.geof'),
-                    os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.ens'),
-                    os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.mesh'),
-                    ),
-        'tibiafibula': (os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_left_mean_rigid_LLP26.geof'),
-                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.ens'),
-                        os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.mesh'),
-                        ),
-        }
+        'pelvis': (
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
+        ),
+        'femur': (
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.mesh'),
+        ),
+        'patella': (
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_left_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.mesh'),
+        ),
+        'tibiafibula': (
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_left_mean_rigid_LLP26.geof'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.ens'),
+            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.mesh'),
+        ),
+    }
     _validRegistrationModes = ('shapemodel',)
     # _validRegistrationModes = ('shapemodel', 'uniformscaling', 'perbonescaling')
     # landmarkNames = ('pelvis-LASIS', 'pelvis-RASIS', 'pelvis-Sacral',
     #                   'femur-LEC', 'femur-MEC', 'tibiafibula-LM',
     #                   'tibiafibula-MM',
     #                   )
-    minArgs = {'method': 'BFGS',
-               'jac': False,
-               'bounds': None, 'tol': 1e-6,
-               'options': {'eps': 1e-5},
-               }
+    minArgs = {
+        'method': 'BFGS',
+        'jac': False,
+        'bounds': None, 'tol': 1e-6,
+        'options': {'eps': 1e-5},
+    }
 
     def __init__(self, config):
         """
@@ -180,14 +188,15 @@ class LLStepData(object):
         """update LL model using current transformations.
         Just shape model deformations
         """
-        self.LL.update_all_models(self.LL.shape_mode_weights,
-                                  self.LL.shape_modes,
-                                  self.LL.pelvis_rigid,
-                                  self.LL.hip_rot_l,
-                                  self.LL.hip_rot_r,
-                                  self.LL.knee_rot_l,
-                                  self.LL.knee_rot_r,
-                                  )
+        self.LL.update_all_models(
+            self.LL.shape_mode_weights,
+            self.LL.shape_modes,
+            self.LL.pelvis_rigid,
+            self.LL.hip_rot_l,
+            self.LL.hip_rot_r,
+            self.LL.knee_rot_l,
+            self.LL.knee_rot_r,
+        )
 
     def _preprocessLandmarks(self):
         """

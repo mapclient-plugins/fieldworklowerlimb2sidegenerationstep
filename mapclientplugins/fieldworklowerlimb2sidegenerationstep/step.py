@@ -57,17 +57,11 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#provides',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#landmarks'))
-        self._config = {}
-        self._config['identifier'] = ''
-        self._config['GUI'] = 'True'
-        self._config['registration_mode'] = 'shapemodel'
-        self._config['pcs_to_fit'] = '1'
-        self._config['mweight'] = '0.1'
-        self._config['knee_corr'] = 'False'
-        self._config['knee_dof'] = 'False'
-        self._config['marker_radius'] = '5.0'
-        self._config['skin_pad'] = '5.0'
-        self._config['landmarks'] = {}
+        self._config = {
+            'identifier': '', 'GUI': 'True', 'registration_mode': 'shapemodel',
+            'pcs_to_fit': '1', 'mweight': '0.1', 'knee_corr': 'False', 'knee_dof': 'False',
+            'marker_radius': '5.0', 'skin_pad': '5.0', 'landmarks': {}
+        }
         for l in DEFAULT_MODEL_LANDMARKS:
             self._config['landmarks'][l] = ''
 
