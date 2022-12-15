@@ -25,7 +25,7 @@ http://dx.doi.org/10.1016/j.jbiomech.2016.10.021
 
 Requires
 --------
-- GIAS2: https://bitbucket.org/jangle/gias2
+- GIAS3: https://github.com/musculoskeletal/gias3
 - MAP Client: https://github.com/MusculoskeletalAtlasProject/mapclient
 
 Inputs
@@ -37,7 +37,7 @@ Outputs
 - **fieldworkmodeldict** [dict] : A dictionary of customised fieldwork models of
 lower limb bones. Dictionary keys are: pelvis, femur-l, femur-r, tibia-l,
 tibia-r, fibula-l, fibula-r, patella-l, patella-r.
-- **gias-lowerlimb** [GIAS2 LowerLimbAtlas instance]: The customised articulated lower
+- **gias-lowerlimb** [GIAS3 LowerLimbAtlas instance]: The customised articulated lower
 limb model.
 
 Usage
