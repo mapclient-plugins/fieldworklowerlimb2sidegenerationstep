@@ -19,11 +19,11 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 """
 import os
 
-from PySide2 import QtGui
-from PySide2.QtWidgets import QDialog, QAbstractItemView, QTableWidgetItem, QDoubleSpinBox, QLabel, QWidget
-from PySide2.QtGui import QIntValidator
-from PySide2.QtCore import Qt
-from PySide2.QtCore import QThread, Signal
+from PySide6 import QtGui
+from PySide6.QtWidgets import QDialog, QAbstractItemView, QTableWidgetItem, QDoubleSpinBox, QLabel, QWidget
+from PySide6.QtGui import QIntValidator
+from PySide6.QtCore import Qt
+from PySide6.QtCore import QThread, Signal
 
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.ui_lowerlimbgenerationdialog import Ui_Dialog
 

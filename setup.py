@@ -37,7 +37,7 @@ package_dependencies = [
     "gias3.mapclientpluginutilities",
     "gias3.fieldwork",
     "gias3.musculoskeletal",
-    "PySide2"
+    "PySide6"
 ]
 package_data = {
     'mapclientplugins.fieldworklowerlimb2sidegenerationstep': [

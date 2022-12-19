@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets
+from PySide6 import QtWidgets
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.ui_configuredialog import Ui_Dialog
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.llstep import validModelLandmarks
 from mapclientplugins.fieldworklowerlimb2sidegenerationstep.landmarktablewidget import LandmarkComboBoxTextTable
