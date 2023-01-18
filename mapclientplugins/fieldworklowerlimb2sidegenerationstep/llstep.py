@@ -364,7 +364,7 @@ class LLStepData(object):
     def _createNestedPelvis(self, gf):
         """ Given a flattened pelvis model, create a hierarchical model
         """
-        newgf = geometric_field.geometric_field(
+        newgf = geometric_field.GeometricField(
             gf.name, 3,
             field_dimensions=2,
             field_basis=PELVIS_BASISTYPES
