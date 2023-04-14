@@ -38,29 +38,30 @@ class ConfigureDialog(QtWidgets.QDialog):
             self._ui.tableWidgetLandmarks,
         )
 
-        self._makeConnections()
+        self._make_connections()
 
         for regmode in REG_MODES:
             self._ui.comboBox_regmode.addItem(regmode)
 
-    def _makeConnections(self):
+    def _make_connections(self):
         self._ui.lineEdit_id.textChanged.connect(self.validate)
-        self._ui.pushButton_addLandmark.clicked.connect(self.landmarkTable.addLandmark)
-        self._ui.pushButton_removeLandmark.clicked.connect(self.landmarkTable.removeLandmark)
+        self._ui.pushButton_addLandmark.clicked.connect(self.landmarkTable.add_landmark)
+        self._ui.pushButton_removeLandmark.clicked.connect(self.landmarkTable.remove_landmark)
 
     def accept(self):
         """
         Override the accept method so that we can confirm saving an
         invalid configuration.
         """
-        result = QtWidgets.QMessageBox.Yes
+        result = QtWidgets.QMessageBox.StandardButton.Yes
         if not self.validate():
-            result = QtWidgets.QMessageBox.warning(self, 'Invalid Configuration',
-                                                   'This configuration is invalid.  Unpredictable behaviour may result if you choose \'Yes\', are you sure you want to save this configuration?)',
-                                                   QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                                   QtWidgets.QMessageBox.No)
+            result = QtWidgets.QMessageBox.warning(self, 'Invalid Configuration', 'This configuration is invalid.  Unpredictable behaviour '
+                                                   'may result if you choose \'Yes\', are you sure you want to save this configuration?)',
+                                                   QtWidgets.QMessageBox.StandardButton(QtWidgets.QMessageBox.StandardButton.Yes |
+                                                                                        QtWidgets.QMessageBox.StandardButton.No),
+                                                   QtWidgets.QMessageBox.StandardButton.No)
 
-        if result == QtWidgets.QMessageBox.Yes:
+        if result == QtWidgets.QMessageBox.StandardButton.Yes:
             QtWidgets.QDialog.accept(self)
 
     def validate(self):
@@ -87,26 +88,18 @@ class ConfigureDialog(QtWidgets.QDialog):
         identifier over the whole of the workflow.
         """
         self._previousIdentifier = self._ui.lineEdit_id.text()
-        config = {}
-        config['identifier'] = self._ui.lineEdit_id.text()
-        config['registration_mode'] = self._ui.comboBox_regmode.currentText()
-        config['pcs_to_fit'] = str(self._ui.spinBox_pcsToFit.value())
-        config['mweight'] = str(self._ui.doubleSpinBox_mWeight.value())
-        config['landmarks'] = self.landmarkTable.getLandmarkPairs()
-        config['marker_radius'] = self._ui.doubleSpinBox_markerRadius.value()
-        config['skin_pad'] = self._ui.doubleSpinBox_skinPad.value()
-        if self._ui.checkBox_kneecorr.isChecked():
-            config['knee_corr'] = 'True'
-        else:
-            config['knee_corr'] = 'False'
-        if self._ui.checkBox_kneedof.isChecked():
-            config['knee_dof'] = 'True'
-        else:
-            config['knee_dof'] = 'False'
-        if self._ui.checkBox_GUI.isChecked():
-            config['GUI'] = 'True'
-        else:
-            config['GUI'] = 'False'
+        config = {
+            'identifier': self._ui.lineEdit_id.text(),
+            'registration_mode': self._ui.comboBox_regmode.currentText(),
+            'pcs_to_fit': str(self._ui.spinBox_pcsToFit.value()),
+            'mweight': str(self._ui.doubleSpinBox_mWeight.value()),
+            'landmarks': self.landmarkTable.get_landmark_pairs(),
+            'marker_radius': self._ui.doubleSpinBox_markerRadius.value(),
+            'skin_pad': self._ui.doubleSpinBox_skinPad.value(),
+            'knee_corr': 'True' if self._ui.checkBox_kneecorr.isChecked() else 'False',
+            'knee_dof': 'True' if self._ui.checkBox_kneedof.isChecked() else 'False',
+            'GUI': 'True' if self._ui.checkBox_GUI.isChecked() else 'False'
+        }
         return config
 
     def setConfig(self, config):
@@ -117,25 +110,15 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = config['identifier']
         self._ui.lineEdit_id.setText(config['identifier'])
-        self._ui.comboBox_regmode.setCurrentIndex(
-            REG_MODES.index(config['registration_mode'])
-        )
+        self._ui.comboBox_regmode.setCurrentIndex(REG_MODES.index(config['registration_mode']))
         self._ui.spinBox_pcsToFit.setValue(int(config['pcs_to_fit']))
         self._ui.doubleSpinBox_mWeight.setValue(float(config['mweight']))
 
         for ml, il in sorted(config['landmarks'].items()):
-            self.landmarkTable.addLandmark(ml, il)
+            self.landmarkTable.add_landmark(ml, il)
+
         self._ui.doubleSpinBox_markerRadius.setValue(float(config['marker_radius']))
         self._ui.doubleSpinBox_skinPad.setValue(float(config['skin_pad']))
-        if config['knee_corr'] == 'True':
-            self._ui.checkBox_kneecorr.setChecked(bool(True))
-        else:
-            self._ui.checkBox_kneecorr.setChecked(bool(False))
-        if config['knee_dof'] == 'True':
-            self._ui.checkBox_kneedof.setChecked(bool(True))
-        else:
-            self._ui.checkBox_kneedof.setChecked(bool(False))
-        if config['GUI'] == 'True':
-            self._ui.checkBox_GUI.setChecked(bool(True))
-        else:
-            self._ui.checkBox_GUI.setChecked(bool(False))
+        self._ui.checkBox_kneecorr.setChecked(config['knee_corr'] == 'True')
+        self._ui.checkBox_kneedof.setChecked(config['knee_dof'] == 'True')
+        self._ui.checkBox_GUI.setChecked(config['GUI'] == 'True')

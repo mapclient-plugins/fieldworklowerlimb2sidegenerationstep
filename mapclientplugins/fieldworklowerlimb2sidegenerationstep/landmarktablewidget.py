@@ -23,70 +23,70 @@ from PySide6.QtWidgets import QAbstractItemView, QTableWidgetItem, QComboBox
 
 class LandmarkComboBoxTable(object):
 
-    def __init__(self, modelLandmarks, inputLandmarks, tableWidget, landmarkPairs=None):
+    def __init__(self, model_landmarks, input_landmarks, table_widget, landmark_pairs=None):
         """
         A table for editing model landmark - input landmark pairs. Each are picked from
         comboboxes.
 
         Inputs
         ------
-        modelLandmarks : list
+        model_landmarks : list
             a list of valid model landmark names
-        inputLandmarks : list
+        input_landmarks : list
             a list of input landmark names
-        tableWidget : QTableWidgetItem
+        table_widget : QTableWidgetItem
             The tableWidget to use
-        landmarkPairs : dict (optional)
+        landmark_pairs : dict (optional)
             Existing landmark pairs to initialise the table with
         """
 
-        self.modelLandmarks = modelLandmarks
-        self.inputLandmarks = inputLandmarks
-        self.table = tableWidget
+        self.modelLandmarks = model_landmarks
+        self.inputLandmarks = input_landmarks
+        self.table = table_widget
         self._rowCount = 0
         self._comboBoxes = []  # (model, input)
 
-        if landmarkPairs is not None:
-            for m, i in list(landmarkPairs.items()):
-                self.addLandmark(m, i)
+        if landmark_pairs is not None:
+            for m, i in list(landmark_pairs.items()):
+                self.add_landmark(m, i)
 
-    def _initTableWidget(self):
-        self._ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+    def _init_table_widget(self):
+        self._ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
-    def addLandmark(self, modelLandmark=None, inputLandmark=None):
+    def add_landmark(self, model_landmark=None, input_landmark=None):
         """
         Add a new row to the table. Create new combo boxes for the new row.
-        If modelLandmark and or inputLandmark are provided, those landmark
+        If model_landmark and or input_landmark are provided, those landmark
         names will be preselected.
         """
         self.table.setRowCount(self._rowCount + 1)
-        combMode = self._addComboBox(self._rowCount, 0, self.modelLandmarks, modelLandmark)
-        combInput = self._addComboBox(self._rowCount, 1, self.inputLandmarks, inputLandmark)
+        combMode = self._add_combo_box(self._rowCount, 0, self.modelLandmarks, model_landmark)
+        combInput = self._add_combo_box(self._rowCount, 1, self.inputLandmarks, input_landmark)
         self._comboBoxes.append((combMode, combInput))
         self._rowCount += 1
         # print(('row added {}'.format(self._rowCount)))
 
-    def removeLandmark(self, selectedRow=None):
+    def remove_landmark(self, selected_row=None):
         """
         Delete the specified or if not specified, the currently selected
         row from the table
         """
-        if selectedRow is None:
-            selectedRow = self.table.currentRow()
-        self.table.removeRow(selectedRow)
-        self._comboBoxes.remove(self._comboBoxes[selectedRow])
+        if selected_row is None:
+            selected_row = self.table.currentRow()
+        self.table.removeRow(selected_row)
+        self._comboBoxes.remove(self._comboBoxes[selected_row])
         self._rowCount -= 1
 
-    def clearTable(self):
+    def clear_table(self):
         """
         Delete all rows
         """
         while self._rowCount > 0:
-            self.removeLandmark(0)
+            self.remove_landmark(0)
 
-    def getLandmarkPairs(self):
+    def get_landmark_pairs(self):
         """
         Return a dictionary mapping selected model landmarks to selected 
         input landmarks
@@ -106,86 +106,84 @@ class LandmarkComboBoxTable(object):
             mComb.setEnabled(False)
             iComb.setEnabled(False)
 
-    def _addComboBox(self, row, col, items, currentItem=None):
+    def _add_combo_box(self, row, col, items, current_item=None):
         comb = QComboBox()
         for it in items:
             comb.addItem(it)
         self.table.setCellWidget(row, col, comb)
 
-        if (currentItem is not None) and (currentItem != ''):
-            if currentItem in items:
-                comb.setCurrentIndex(items.index(currentItem))
+        if (current_item is not None) and (current_item != ''):
+            if current_item in items:
+                comb.setCurrentIndex(items.index(current_item))
             else:
-                print(('invalid item: {}'.format(currentItem)))
+                print(('invalid item: {}'.format(current_item)))
 
         return comb
 
 
 class LandmarkComboBoxTextTable(object):
 
-    def __init__(self, modelLandmarks, tableWidget, landmarkPairs=None):
+    def __init__(self, model_landmarks, table_widget, landmark_pairs=None):
         """
         A table for editing model landmark - input landmark pairs. Model landmarks are
         picked from comboboxes, input landmarks are text entries.
 
         Inputs
         ------
-        modelLandmarks : list
+        model_landmarks : list
             a list of valid model landmark names
-        inputLandmarks : list
-            a list of input landmark names
-        tableWidget : QTableWidgetItem
+        table_widget : QTableWidgetItem
             The tableWidget to use
-        landmarkPairs : dict (optional)
+        landmark_pairs : dict (optional)
             Existing landmark pairs to initialise the table with
         """
 
-        self.modelLandmarks = modelLandmarks
-        self.table = tableWidget
+        self.modelLandmarks = model_landmarks
+        self.table = table_widget
         self._rowCount = 0
         self._rowElems = []  # (model, input)
 
-        if landmarkPairs is not None:
-            for m, i in list(landmarkPairs.items()):
-                self.addLandmark(m, i)
+        if landmark_pairs is not None:
+            for m, i in list(landmark_pairs.items()):
+                self.add_landmark(m, i)
 
-    def _initTableWidget(self):
-        self._ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+    def _init_table_widget(self):
+        self._ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
-    def addLandmark(self, modelLandmark=None, inputLandmark=None):
+    def add_landmark(self, model_landmark=None, input_landmark=None):
         """
         Add a new row to the table. Create new combo boxes for the new row.
-        If modelLandmark and or inputLandmark are provided, those landmark
+        If model_landmark and or input_landmark are provided, those landmark
         names will be preselected.
         """
         self.table.setRowCount(self._rowCount + 1)
-        combMode = self._addComboBox(self._rowCount, 0, self.modelLandmarks, modelLandmark)
-        elemInput = self._addTableItem(self._rowCount, 1, inputLandmark)
+        combMode = self._add_combo_box(self._rowCount, 0, self.modelLandmarks, model_landmark)
+        elemInput = self._add_table_item(self._rowCount, 1, input_landmark)
         self._rowElems.append((combMode, elemInput))
         self._rowCount += 1
         # print(('row added {}'.format(self._rowCount)))
 
-    def removeLandmark(self, selectedRow=None):
+    def remove_landmark(self, selected_row=None):
         """
         Delete the specified or if not specified, the currently selected
         row from the table
         """
-        if selectedRow is None:
-            selectedRow = self.table.currentRow()
-        self.table.removeRow(selectedRow)
-        self._rowElems.remove(self._rowElems[selectedRow])
+        if selected_row is None:
+            selected_row = self.table.currentRow()
+        self.table.removeRow(selected_row)
+        self._rowElems.remove(self._rowElems[selected_row])
         self._rowCount -= 1
 
-    def clearTable(self):
+    def clear_table(self):
         """
         Delete all rows
         """
         while self._rowCount > 0:
-            self.removeLandmark(0)
+            self.remove_landmark(0)
 
-    def getLandmarkPairs(self):
+    def get_landmark_pairs(self):
         """
         Return a dictionary mapping selected model landmarks to selected 
         input landmarks
@@ -205,21 +203,21 @@ class LandmarkComboBoxTextTable(object):
             mElem.setEnabled(False)
             iElem.setEnabled(False)
 
-    def _addComboBox(self, row, col, items, currentItem=None):
+    def _add_combo_box(self, row, col, items, current_item=None):
         comb = QComboBox()
         for it in items:
             comb.addItem(it)
         self.table.setCellWidget(row, col, comb)
 
-        if (currentItem is not None) and (currentItem != ''):
-            if currentItem in items:
-                comb.setCurrentIndex(items.index(currentItem))
+        if (current_item is not None) and (current_item != ''):
+            if current_item in items:
+                comb.setCurrentIndex(items.index(current_item))
             else:
-                print(('invalid item: {}'.format(currentItem)))
+                print(('invalid item: {}'.format(current_item)))
 
         return comb
 
-    def _addTableItem(self, row, col, text=None):
+    def _add_table_item(self, row, col, text=None):
         tableItem = QTableWidgetItem()
         if text is not None:
             tableItem.setText(text)

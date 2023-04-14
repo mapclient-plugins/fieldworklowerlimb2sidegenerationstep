@@ -62,8 +62,8 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
             'pcs_to_fit': '1', 'mweight': '0.1', 'knee_corr': 'False', 'knee_dof': 'False',
             'marker_radius': '5.0', 'skin_pad': '5.0', 'landmarks': {}
         }
-        for l in DEFAULT_MODEL_LANDMARKS:
-            self._config['landmarks'][l] = ''
+        for landmark in DEFAULT_MODEL_LANDMARKS:
+            self._config['landmarks'][landmark] = ''
 
         self._data = llstep.LLStepData(self._config)
 
@@ -74,8 +74,8 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         """
         # Put your execute step code here before calling the '_doneExecution' method.
-        self._data.loadData()
-        self._data.updateFromConfig()
+        self._data.load_data()
+        self._data.update_from_config()
         print('LL estimation configs:')
         print(self._data.config)
         if self._config['GUI'] == 'True':
@@ -101,8 +101,8 @@ class FieldworkLowerLimb2SideGenerationStep(WorkflowStepMountPoint):
         provides port for this step then the index can be ignored.
         """
         if index == 1:
-            print(('outputting {}'.format(list(self._data.outputModelDict.keys()))))
-            return self._data.outputModelDict
+            print(('outputting {}'.format(list(self._data.output_model_dict.keys()))))
+            return self._data.output_model_dict
 
         elif index == 2:
             return self._data.LL

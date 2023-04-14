@@ -20,7 +20,7 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 import os
 
 from PySide6 import QtGui
-from PySide6.QtWidgets import QDialog, QAbstractItemView, QTableWidgetItem, QDoubleSpinBox, QLabel, QWidget
+from PySide6.QtWidgets import QDialog, QAbstractItemView, QTableWidgetItem, QDoubleSpinBox, QLabel
 from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QThread, Signal
@@ -79,28 +79,28 @@ class LowerLimbGenerationDialog(QDialog):
         self._scene.background = self.backgroundColour
 
         self.data = data
-        self.data.regCallback = self._regCallback
+        self.data.regCallback = self._reg_callback
         self.done_execution = done_execution
         self._lockManualRegUpdate = False
 
         self.selectedObjectName = None
 
         self._worker = _ExecThread(self.data.register)
-        self._worker.update.connect(self._regUpdate)
-        self._worker.callback.connect(self._regCallback)
+        self._worker.update.connect(self._reg_update)
+        self._worker.callback.connect(self._reg_callback)
 
         self.doubleSpinBox_pcs = []
         self.labels = []
 
         # FIX FROM HERE #
-        self._initViewerObjects()
-        self._setupGui()
-        self._makeConnections()
-        self._initialiseObjectTable()
-        self._updateConfigs()
+        self._init_viewer_objects()
+        self._setup_gui()
+        self._make_connections()
+        self._initialise_object_table()
+        self._update_configs()
         self._refresh()
 
-    def _initViewerObjects(self):
+    def _init_viewer_objects(self):
         self._objects = MayaviViewerObjectsContainer()
         for mn, m in list(self.data.LL.models.items()):
             self._objects.addObject(mn,
@@ -118,8 +118,8 @@ class LowerLimbGenerationDialog(QDialog):
                                                              render_args=self._landmarkRenderArgs
                                                              )
                                     )
-        for li, lcoords in enumerate(self.data.targetLandmarks):
-            ln = self.data.targetLandmarkNames[li] + '_adjusted'
+        for li, lcoords in enumerate(self.data.target_landmarks):
+            ln = self.data.target_landmark_names[li] + '_adjusted'
             print(('{} {} {}'.format(li, ln, lcoords)))
             self._objects.addObject(ln, MayaviViewerLandmark(ln,
                                                              lcoords,
@@ -127,7 +127,7 @@ class LowerLimbGenerationDialog(QDialog):
                                                              )
                                     )
 
-    def _setupGui(self):
+    def _setup_gui(self):
         # screenshot page
         self._ui.screenshotPixelXLineEdit.setValidator(QIntValidator())
         self._ui.screenshotPixelYLineEdit.setValidator(QIntValidator())
@@ -142,20 +142,20 @@ class LowerLimbGenerationDialog(QDialog):
 
         # auto reg page
         self._ui.spinBox_pcsToFit.setMaximum(self.data.LL.SHAPEMODESMAX)
-        for regmode in self.data.validRegistrationModes:
+        for regmode in self.data.valid_registration_modes:
             self._ui.comboBox_regmode.addItem(regmode)
 
         # disable manual scaling adjustment, just use the shape model
         self._ui.doubleSpinBox_scaling.setEnabled(False)
 
-    def _updateConfigs(self):
+    def _update_configs(self):
         # landmarks page
-        self.landmarkTable.clearTable()
+        self.landmarkTable.clear_table()
         for ml, il in sorted(self.data.config['landmarks'].items()):
-            self.landmarkTable.addLandmark(ml, il)
+            self.landmarkTable.add_landmark(ml, il)
 
-        self._ui.doubleSpinBox_markerRadius.setValue(self.data.markerRadius)
-        self._ui.doubleSpinBox_skinPad.setValue(self.data.skinPad)
+        self._ui.doubleSpinBox_markerRadius.setValue(self.data.marker_radius)
+        self._ui.doubleSpinBox_skinPad.setValue(self.data.skin_pad)
 
         # manual reg page
         # This block could definitely be done better
@@ -191,37 +191,37 @@ class LowerLimbGenerationDialog(QDialog):
 
         # auto reg page
         self._ui.comboBox_regmode.setCurrentIndex(
-            self.data.validRegistrationModes.index(
-                self.data.registrationMode,
+            self.data.valid_registration_modes.index(
+                self.data.registration_mode,
             )
         )
-        self._ui.spinBox_pcsToFit.setValue(self.data.nShapeModes)
-        self._ui.spinBox_mWeight.setValue(self.data.mWeight)
-        self._ui.checkBox_kneecorr.setChecked(bool(self.data.kneeCorr))
-        self._ui.checkBox_kneedof.setChecked(bool(self.data.kneeDOF))
+        self._ui.spinBox_pcsToFit.setValue(self.data.n_shape_modes)
+        self._ui.spinBox_mWeight.setValue(self.data.m_weight)
+        self._ui.checkBox_kneecorr.setChecked(bool(self.data.knee_corr))
+        self._ui.checkBox_kneedof.setChecked(bool(self.data.knee_dof))
 
-    def _updateNShapeModes(self):
-        self.data.nShapeModes = self._ui.spinBox_pcsToFit.value()
+    def _update_n_shape_modes(self):
+        self.data.n_shape_modes = self._ui.spinBox_pcsToFit.value()
 
-    def _saveConfigs(self):
+    def _save_configs(self):
         # landmarks page
-        self.data.config['landmarks'] = self.landmarkTable.getLandmarkPairs()
-        self.data.markerRadius = self._ui.doubleSpinBox_markerRadius.value()
-        self.data.skinPad = self._ui.doubleSpinBox_skinPad.value()
+        self.data.config['landmarks'] = self.landmarkTable.get_landmark_pairs()
+        self.data.marker_radius = self._ui.doubleSpinBox_markerRadius.value()
+        self.data.skin_pad = self._ui.doubleSpinBox_skinPad.value()
 
         # manual reg page
-        self._saveLLParams()
+        self._save_ll_params()
 
         # auto reg page
-        self.data.registrationMode = str(self._ui.comboBox_regmode.currentText())
-        self.data.nShapeModes = self._ui.spinBox_pcsToFit.value()
-        self.data.mWeight = self._ui.spinBox_mWeight.value()
-        self.data.kneeCorr = self._ui.checkBox_kneecorr.isChecked()
-        self.data.kneeDOF = self._ui.checkBox_kneedof.isChecked()
-        self._ui.checkBox_kneecorr.setChecked(bool(self.data.kneeCorr))
-        self._ui.checkBox_kneedof.setChecked(bool(self.data.kneeDOF))
+        self.data.registration_mode = str(self._ui.comboBox_regmode.currentText())
+        self.data.n_shape_modes = self._ui.spinBox_pcsToFit.value()
+        self.data.m_weight = self._ui.spinBox_mWeight.value()
+        self.data.knee_corr = self._ui.checkBox_kneecorr.isChecked()
+        self.data.knee_dof = self._ui.checkBox_kneedof.isChecked()
+        self._ui.checkBox_kneecorr.setChecked(bool(self.data.knee_corr))
+        self._ui.checkBox_kneedof.setChecked(bool(self.data.knee_dof))
 
-    def _saveLLParams(self):
+    def _save_ll_params(self):
         shape_mode_weights = np.array(self.data.LL.shape_mode_weights)
         for index in range(len(shape_mode_weights)):
             shape_mode_weights[index] = self.doubleSpinBox_pcs[index].value()
@@ -247,7 +247,7 @@ class LowerLimbGenerationDialog(QDialog):
             np.deg2rad(self._ui.doubleSpinBox_hiprz.value()),
         ]
 
-        if self.data.kneeDOF:
+        if self.data.knee_dof:
             knee_rot_l = [
                 np.deg2rad(self._ui.doubleSpinBox_kneelx.value()),
                 np.deg2rad(self._ui.doubleSpinBox_kneelz.value()),
@@ -270,48 +270,48 @@ class LowerLimbGenerationDialog(QDialog):
             knee_rot_r,
         )
 
-    def _makeConnections(self):
-        self._ui.tableWidget.itemClicked.connect(self._tableItemClicked)
-        self._ui.tableWidget.itemChanged.connect(self._visibleBoxChanged)
-        self._ui.screenshotSaveButton.clicked.connect(self._saveScreenShot)
+    def _make_connections(self):
+        self._ui.tableWidget.itemClicked.connect(self._table_item_clicked)
+        self._ui.tableWidget.itemChanged.connect(self._visible_box_changed)
+        self._ui.screenshotSaveButton.clicked.connect(self._save_screen_shot)
 
         # landmarks
-        # self.landmarktablewidget.table.itemClicked.connect(self._saveConfigs)
-        self.landmarkTable.table.itemChanged.connect(self._saveConfigs)
-        self._ui.pushButton_addLandmark.clicked.connect(self.landmarkTable.addLandmark)
-        self._ui.pushButton_removeLandmark.clicked.connect(self.landmarkTable.removeLandmark)
-        # self._ui.doubleSpinBox_scaling.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_ptx.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_pty.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_ptz.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_prx.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_pry.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_prz.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_hiplx.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_hiply.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_hiplz.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_hiprx.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_hipry.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_hiprz.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_kneelx.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_kneely.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_kneelz.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_kneerx.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_kneery.valueChanged.connect(self._manualRegUpdate)
-        self._ui.doubleSpinBox_kneerz.valueChanged.connect(self._manualRegUpdate)
+        # self.landmarktablewidget.table.itemClicked.connect(self._save_configs)
+        self.landmarkTable.table.itemChanged.connect(self._save_configs)
+        self._ui.pushButton_addLandmark.clicked.connect(self.landmarkTable.add_landmark)
+        self._ui.pushButton_removeLandmark.clicked.connect(self.landmarkTable.remove_landmark)
+        # self._ui.doubleSpinBox_scaling.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_ptx.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_pty.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_ptz.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_prx.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_pry.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_prz.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_hiplx.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_hiply.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_hiplz.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_hiprx.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_hipry.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_hiprz.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_kneelx.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_kneely.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_kneelz.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_kneerx.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_kneery.valueChanged.connect(self._manual_reg_update)
+        self._ui.doubleSpinBox_kneerz.valueChanged.connect(self._manual_reg_update)
         self._ui.pushButton_manual_reset.clicked.connect(self._reset)
         self._ui.pushButton_manual_accept.clicked.connect(self._accept)
 
         # auto reg
-        self._ui.checkBox_kneecorr.stateChanged.connect(self._autoRegChanged)
-        self._ui.checkBox_kneedof.stateChanged.connect(self._autoRegChanged)
+        self._ui.checkBox_kneecorr.stateChanged.connect(self._auto_reg_changed)
+        self._ui.checkBox_kneedof.stateChanged.connect(self._auto_reg_changed)
         self._ui.pushButton_auto_reset.clicked.connect(self._reset)
         self._ui.pushButton_auto_accept.clicked.connect(self._accept)
         self._ui.pushButton_auto_abort.clicked.connect(self._abort)
-        self._ui.pushButton_auto_reg.clicked.connect(self._autoReg)
-        self._ui.spinBox_pcsToFit.valueChanged.connect(self._pcsToFitChanged)
+        self._ui.pushButton_auto_reg.clicked.connect(self._auto_reg)
+        self._ui.spinBox_pcsToFit.valueChanged.connect(self._pcs_to_fit_changed)
 
-    def _pcsToFitChanged(self):
+    def _pcs_to_fit_changed(self):
         # delta represents a change in the number of PCs. (+) means we need to increase, (-) means we need to decrease
         delta = self._ui.spinBox_pcsToFit.value() - int(self._ui.gridLayout_3.count() / 2)
 
@@ -322,9 +322,9 @@ class LowerLimbGenerationDialog(QDialog):
                 self.labels.pop().setParent(None)
 
                 # ??:
-                self._updateNShapeModes()
+                self._update_n_shape_modes()
                 # ??:
-                self._manualRegUpdate()
+                self._manual_reg_update()
 
         # If delta is positive, add the specified number of widgets to the layout
         elif delta > 0:
@@ -346,8 +346,8 @@ class LowerLimbGenerationDialog(QDialog):
                 widget.setSingleStep(0.100000000000000)
                 self._ui.gridLayout_3.addWidget(widget, cell_row, cell_column, 1, 1)
 
-                widget.valueChanged.connect(self._manualRegUpdate)
-                self._updateNShapeModes()
+                widget.valueChanged.connect(self._manual_reg_update)
+                self._update_n_shape_modes()
 
                 label = QLabel(self._ui.page)
                 label.setObjectName("label_" + str(self._ui.gridLayout_3.count() + 1))
@@ -358,35 +358,35 @@ class LowerLimbGenerationDialog(QDialog):
                 self.doubleSpinBox_pcs.append(widget)
                 self.labels.append(label)
 
-    def _initialiseObjectTable(self):
+    def _initialise_object_table(self):
         self._ui.tableWidget.setRowCount(self._objects.getNumberOfObjects())
         self._ui.tableWidget.verticalHeader().setVisible(False)
-        self._ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+        self._ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
         # 'none' is first elem in self._landmarkNames, so skip that
         row = 0
         # Add input landmarks
         for li, ln in enumerate(sorted(self.data.inputLandmarks.keys())):
-            self._addObjectToTable(row, ln, self._objects.getObject(ln), checked=True)
+            self._add_object_to_table(row, ln, self._objects.getObject(ln), checked=True)
             row += 1
 
         # Add adjusted landmarks
-        for ln in self.data.targetLandmarkNames:
+        for ln in self.data.target_landmark_names:
             ln = ln + '_adjusted'
-            self._addObjectToTable(row, ln, self._objects.getObject(ln), checked=True)
+            self._add_object_to_table(row, ln, self._objects.getObject(ln), checked=True)
             row += 1
 
         # Add bone models
         for mn in list(self.data.LL.models.keys()):
-            self._addObjectToTable(row, mn, self._objects.getObject(mn), checked=True)
+            self._add_object_to_table(row, mn, self._objects.getObject(mn), checked=True)
             row += 1
 
         # self._modelRow = r
         self._ui.tableWidget.resizeColumnToContents(self.objectTableHeaderColumns['Visible'])
 
-    def _addObjectToTable(self, row, name, obj, checked=True):
+    def _add_object_to_table(self, row, name, obj, checked=True):
         type_name = obj.typeName
         print(('adding to table: %s (%s)' % (name, type_name)))
         table_item = QTableWidgetItem(name)
@@ -397,8 +397,8 @@ class LowerLimbGenerationDialog(QDialog):
 
         self._ui.tableWidget.setItem(row, self.objectTableHeaderColumns['Visible'], table_item)
 
-    # It seems all this method does is print which item has been clicked, which is already done in _visibleBoxChanged
-    def _tableItemClicked(self):
+    # It seems all this method does is print which item has been clicked, which is already done in _visible_box_changed
+    def _table_item_clicked(self):
         pass
         # selected_row = self._ui.tableWidget.currentRow()
         #
@@ -410,7 +410,7 @@ class LowerLimbGenerationDialog(QDialog):
         # print(selected_row)
         # print(self.selectedObjectName)
 
-    def _visibleBoxChanged(self, table_item):
+    def _visible_box_changed(self, table_item):
         # Checked changed item is actually the checkbox
         if table_item.column() == self.objectTableHeaderColumns['Visible']:
             # Get visible status
@@ -424,32 +424,32 @@ class LowerLimbGenerationDialog(QDialog):
             else:
                 obj.draw(self._scene)
 
-    def _getSelectedObjectName(self):
+    def _get_selected_object_name(self):
         return self.selectedObjectName
 
-    def _getSelectedScalarName(self):
-        return 'none'
+    # def _get_selected_scalar_name(self):
+    #     return 'none'
 
-    def _drawObjects(self):
+    def _draw_objects(self):
         for name in self._objects.getObjectNames():
             self._objects.getObject(name).draw(self._scene)
 
-    def _updateSceneModels(self):
+    def _update_scene_models(self):
         for mn in self.data.LL.models:
             mesh_obj = self._objects.getObject(mn)
             mesh_obj.updateGeometry(None, self._scene)
 
-    def _manualRegUpdate(self):
+    def _manual_reg_update(self):
         if not self._lockManualRegUpdate:
-            self._saveConfigs()
-            # self.data.updateLLModel() # LL is auto updated in _saveConfigs
-            self._updateSceneModels()
+            self._save_configs()
+            # self.data.update_ll_model() # LL is auto updated in _save_configs
+            self._update_scene_models()
 
-    def _autoRegChanged(self):
-        self.data.kneeCorr = self._ui.checkBox_kneecorr.isChecked()
-        self.data.kneeDOF = self._ui.checkBox_kneedof.isChecked()
+    def _auto_reg_changed(self):
+        self.data.knee_corr = self._ui.checkBox_kneecorr.isChecked()
+        self.data.knee_dof = self._ui.checkBox_kneedof.isChecked()
 
-    def _regLockUI(self):
+    def _reg_lock_ui(self):
         self.landmarkTable.disable()
         self._ui.doubleSpinBox_markerRadius.setEnabled(False)
         self._ui.doubleSpinBox_skinPad.setEnabled(False)
@@ -486,7 +486,7 @@ class LowerLimbGenerationDialog(QDialog):
         self._ui.pushButton_auto_abort.setEnabled(False)
         self._ui.pushButton_auto_reg.setEnabled(False)
 
-    def _regUnlockUI(self):
+    def _reg_unlock_ui(self):
         self.landmarkTable.enable()
         self._ui.doubleSpinBox_markerRadius.setEnabled(True)
         self._ui.doubleSpinBox_skinPad.setEnabled(True)
@@ -523,45 +523,45 @@ class LowerLimbGenerationDialog(QDialog):
         self._ui.pushButton_auto_abort.setEnabled(True)
         self._ui.pushButton_auto_reg.setEnabled(True)
 
-    def _regUpdate(self, output):
+    def _reg_update(self, output):
         # update models in scene
-        self._updateSceneModels()
+        self._update_scene_models()
 
         # update error field
         self._ui.lineEdit_landmarkError.setText('{:5.2f}'.format(self.data.landmarkRMSE))
         self._ui.lineEdit_mDist.setText('{:5.2f}'.format(self.data.fitMDist))
 
         # unlock reg ui
-        self._regUnlockUI()
+        self._reg_unlock_ui()
 
         # update configs
         self._lockManualRegUpdate = True
-        self._updateConfigs()
+        self._update_configs()
         self._lockManualRegUpdate = False
 
-    def _regCallback(self, output):
-        self._updateSceneModels()
+    def _reg_callback(self, output):
+        self._update_scene_models()
 
-    def _autoReg(self):
-        # self._saveConfigs()
+    def _auto_reg(self):
+        # self._save_configs()
         # Auto-reg doesn't work if any of the shape values are non-zero
         self.data.LL.shape_mode_weights = np.zeros(self._ui.spinBox_pcsToFit.value(), dtype=float)
         self._worker.start()
-        self._regLockUI()
+        self._reg_lock_ui()
 
     def _reset(self):
-        self.data.resetLL()
+        self.data.reset_ll()
         self._lockManualRegUpdate = True
-        self._updateConfigs()
+        self._update_configs()
         self._lockManualRegUpdate = False
-        self._updateSceneModels()
+        self._update_scene_models()
 
         # clear error fields
         self._ui.lineEdit_landmarkError.clear()
         self._ui.lineEdit_mDist.clear()
 
     def _accept(self):
-        self._saveConfigs()
+        self._save_configs()
         self._close()
         self.done_execution()
 
@@ -589,7 +589,7 @@ class LowerLimbGenerationDialog(QDialog):
             else:
                 obj.draw(self._scene)
 
-    def _saveScreenShot(self):
+    def _save_screen_shot(self):
         filename = self._ui.screenshotFilenameLineEdit.text()
         width = int(self._ui.screenshotPixelXLineEdit.text())
         height = int(self._ui.screenshotPixelYLineEdit.text())
