@@ -50,11 +50,6 @@ class LandmarkComboBoxTable(object):
             for m, i in list(landmark_pairs.items()):
                 self.add_landmark(m, i)
 
-    def _init_table_widget(self):
-        self._ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
-
     def add_landmark(self, model_landmark=None, input_landmark=None):
         """
         Add a new row to the table. Create new combo boxes for the new row.
@@ -146,11 +141,6 @@ class LandmarkComboBoxTextTable(object):
         if landmark_pairs is not None:
             for m, i in list(landmark_pairs.items()):
                 self.add_landmark(m, i)
-
-    def _init_table_widget(self):
-        self._ui.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self._ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self._ui.tableWidget.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
     def add_landmark(self, model_landmark=None, input_landmark=None):
         """
