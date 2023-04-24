@@ -5,12 +5,10 @@ import os
 import numpy as np
 import copy
 
-from gias3.fieldwork.field import geometric_field
 from gias3.musculoskeletal import mocap_landmark_preprocess
 from gias3.musculoskeletal.bonemodels import lowerlimbatlasfit2side
 from gias3.musculoskeletal.bonemodels import lowerlimbatlas
 
-# from gias3.musculoskeletal.bonemodels import lowerlimbatlasfitscaling
 
 validModelLandmarks = (
     'femur-GT-l',
@@ -49,6 +47,7 @@ validModelLandmarks = (
 )
 
 SELF_DIRECTORY = os.path.split(__file__)[0]
+
 PELVIS_SUBMESHES = ('RH', 'LH', 'sac')
 PELVIS_SUBMESH_ELEMS = {
     'RH': list(range(0, 73)),
@@ -113,11 +112,6 @@ class LLStepData(object):
         ),
     }
     _validRegistrationModes = ('shapemodel',)
-    # _validRegistrationModes = ('shapemodel', 'uniformscaling', 'perbonescaling')
-    # landmark_names = ('pelvis-LASIS', 'pelvis-RASIS', 'pelvis-Sacral',
-    #                   'femur-LEC', 'femur-MEC', 'tibiafibula-LM',
-    #                   'tibiafibula-MM',
-    #                   )
     minArgs = {
         'method': 'BFGS',
         'jac': False,
@@ -146,19 +140,12 @@ class LLStepData(object):
         """
         self.config = config
         self.inputLandmarks = None  # a dict of target landmark names : coordinates
-        # self._targetLandmarksNames = None # list of strings matching keys in self.inputLandmarks
-        self._targetLandmarks = None
         self.LL = lowerlimbatlas.LowerLimbAtlas('lowerlimb')
         self.landmark_dict = None
 
-        self.inputPCs = None
-        self._inputModelDict = None
-        self._outputModelDict = None
         self.landmarkErrors = None
         self.landmarkRMSE = None
         self.fitMDist = None
-
-        # self.regCallback = None
 
     def load_data(self):
         self.LL.ll_l.bone_files = self._boneModelFilenamesLeft
@@ -173,7 +160,6 @@ class LLStepData(object):
         self.landmarkRMSE = None
 
     def update_from_config(self):
-        # self.target_landmark_names = [self.config['landmarks'][ln] for ln in self.landmark_names]
         self.n_shape_modes = self.config['pcs_to_fit']
         if self.knee_corr:
             self.LL.enable_knee_adduction_correction()
@@ -184,20 +170,6 @@ class LLStepData(object):
         else:
             self.LL.disable_knee_adduction_dof()
 
-    def update_ll_model(self):
-        """update LL model using current transformations.
-        Just shape model deformations
-        """
-        self.LL.update_all_models(
-            self.LL.shape_mode_weights,
-            self.LL.shape_modes,
-            self.LL.pelvis_rigid,
-            self.LL.hip_rot_l,
-            self.LL.hip_rot_r,
-            self.LL.knee_rot_l,
-            self.LL.knee_rot_r,
-        )
-
     def _preprocess_landmarks(self):
         """
         given a dictionary of landmark names and coordinates, translate landmarks
@@ -205,13 +177,6 @@ class LLStepData(object):
 
         Landmark names in the dictionary name should have fieldwork landmark names
         """
-
-        # return l
-        # return np.array(mocap_landmark_preprocess.preprocess_lower_limb(
-        #                 self.marker_radius,
-        #                 self.skin_pad,
-        #                 l[0], l[1], l[2], l[3], l[4], l[5], l[6]),
-        #                 )
 
         def _process(body, body_landmarks):
             skipBody = False
@@ -286,31 +251,26 @@ class LLStepData(object):
         )
         preprocdLandmarks.update(_process('tibiafibula', tibiafibulaRLandmarks))
 
-        # print('preprocessed landmarks:')
-        # print(preprocdLandmarks)
-
         return preprocdLandmarks
 
     @property
     def output_model_dict(self):
-        self._outputModelDict = dict([(m[0], m[1].gf) for m in list(self.LL.models.items())])
+        _outputModelDict = dict([(m[0], m[1].gf) for m in list(self.LL.models.items())])
 
         # add pelvis submeshes
-        self._outputModelDict['pelvis flat'] = copy.deepcopy(self._outputModelDict['pelvis'])
         lh_gf, sac_gf, rh_gf = self._split_pelvis_gfs()
-        self._outputModelDict['hemipelvis-left'] = lh_gf
-        self._outputModelDict['sacrum'] = sac_gf
-        self._outputModelDict['hemipelvis-right'] = rh_gf
-        # self._outputModelDict['pelvis'] = self._create_nested_pelvis(self._outputModelDict['pelvis flat'])
+        _outputModelDict['hemipelvis-left'] = lh_gf
+        _outputModelDict['sacrum'] = sac_gf
+        _outputModelDict['hemipelvis-right'] = rh_gf
 
         # add seperate tibia and fibula
         tibiaGFL, fibulaGFL, tibiaGFR, fibulaGFR = self._split_tibia_fibula_gfs()
-        self._outputModelDict['tibia-l'] = tibiaGFL
-        self._outputModelDict['fibula-l'] = fibulaGFL
-        self._outputModelDict['tibia-r'] = tibiaGFR
-        self._outputModelDict['fibula-r'] = fibulaGFR
+        _outputModelDict['tibia-l'] = tibiaGFL
+        _outputModelDict['fibula-l'] = fibulaGFL
+        _outputModelDict['tibia-r'] = tibiaGFR
+        _outputModelDict['fibula-r'] = fibulaGFR
 
-        return self._outputModelDict
+        return _outputModelDict
 
     def _split_tibia_fibula_gfs(self):
         tibfibL = self.LL.models['tibiafibula-l'].gf
@@ -361,29 +321,6 @@ class LLStepData(object):
         )
         return lhgf, sacgf, rhgf
 
-    def _create_nested_pelvis(self, gf):
-        """ Given a flattened pelvis model, create a hierarchical model
-        """
-        newgf = geometric_field.GeometricField(
-            gf.name, 3,
-            field_dimensions=2,
-            field_basis=PELVIS_BASISTYPES
-        )
-
-        for subname in PELVIS_SUBMESHES:
-            subgf = gf.makeGFFromElements(
-                subname,
-                PELVIS_SUBMESH_ELEMS[subname],
-                PELVIS_BASISTYPES
-            )
-            newgf.add_element_with_parameters(
-                subgf.ensemble_field_function,
-                subgf.field_parameters,
-                tol=0.0
-            )
-
-        return newgf
-
     @property
     def valid_registration_modes(self):
         return self._validRegistrationModes
@@ -391,15 +328,13 @@ class LLStepData(object):
     @property
     def registration_mode(self):
         return self.config['registration_mode']
-        # return self._registrationMode
 
     @registration_mode.setter
     def registration_mode(self, value):
         if value in self.valid_registration_modes:
             self.config['registration_mode'] = value
         else:
-            raise ValueError(
-                'Invalid registration mode. Given {}, must be one of {}'.format(value, self.valid_registration_modes))
+            raise ValueError('Invalid registration mode. Given {}, must be one of {}'.format(value, self.valid_registration_modes))
 
     @property
     def landmark_names(self):
@@ -407,36 +342,13 @@ class LLStepData(object):
 
     @property
     def target_landmark_names(self):
-        # return self._targetLandmarkNames
-        # return [self.config['landmarks'][ln] for ln in self.landmark_names]
         return [self.config['landmarks'][ln] for ln in self.landmark_names]
-
-    # @target_landmark_names.setter
-    # def target_landmark_names(self, value):
-    #     if len(value)!=7:
-    #         raise ValueError('7 input landmark names required for {}'.format(self._landmarkNames))
-    #     else:
-    #         # self._targetLandmarkNames = value
-    #         # save to config dict
-    #         for li, ln in enumerate(self.landmark_names):
-    #             self.config[ln] = value[li]
-    #         # evaluate target landmark coordinates
-    #         # if (self.inputLandmarks is not None) and ('' not in value):
-    #         #     self._targetLandmarks = np.array([self.inputLandmarks[n] for n in self._targetLandmarkNames])
 
     @property
     def target_landmarks(self):
-        # if '' in self.target_landmark_names:
-        #     raise ValueError('Null string in target_landmark_names')
-
-        # self._targetLandmarks = np.array([self.inputLandmarks[n] for n in self.target_landmark_names])
-        # self._targetLandmarks = self._preprocess_landmarks(self._targetLandmarks)
-        # return self._targetLandmarks
-
         preprocd = self._preprocess_landmarks()
         print('preprocd')
         print(preprocd)
-        # self._targetLandmarks = np.array([preprocd[n] for n in self.target_landmark_names])
         self.landmark_dict = preprocd
 
         _targetLandmarks = []
@@ -445,16 +357,7 @@ class LLStepData(object):
                 pass
             else:
                 _targetLandmarks.append(preprocd[n])
-        self._targetLandmarks = np.array(_targetLandmarks)
-        return self._targetLandmarks
-
-    @property
-    def input_model_dict(self):
-        return self._inputModelDict
-
-    @input_model_dict.setter
-    def input_model_dict(self, value):
-        self._inputModelDict = value
+        return np.array(_targetLandmarks)
 
     @property
     def m_weight(self):
@@ -487,8 +390,7 @@ class LLStepData(object):
     @n_shape_modes.setter
     def n_shape_modes(self, n):
         self.config['pcs_to_fit'] = str(n)
-        n = int(n)
-        self.LL.shape_modes = np.arange(n, dtype=int)
+        self.LL.shape_modes = np.arange(int(n), dtype=int)
 
     @property
     def knee_corr(self):
@@ -537,10 +439,6 @@ class LLStepData(object):
             if self.m_weight is None:
                 raise RuntimeError('Mahalanobis penalty weight not defined')
             output = _register_shape_model(self, callback)
-        # elif mode=='uniformscaling':
-        #     output = _registerUniformScaling(self)
-        # elif mode=='perbonescaling':
-        #     output = _registerPerBoneScaling(self)
         else:
             raise ValueError('Invalid registration mode: {}'.format(mode))
         return output
@@ -574,64 +472,3 @@ def _register_shape_model(lldata, callback=None):
     lldata.LL.shape_model_x = xFitted[-1]
     print(('new X:' + str(lldata.LL.shape_model_x)))
     return xFitted, optLandmarkDist, optLandmarkRMSE, fitInfo
-
-# def _registerUniformScaling(lldata, callback=None):
-
-#     # if lladata.T.uniformScalingX has not changed from the default,
-#     # use None for x0 so that it is automatically calculated
-#     x0Temp = lldata.T.uniformScalingX
-#     if (x0Temp[0]==1.0) and np.all(x0Temp[1:]==0.0):
-#         x0 = None
-#     else:
-#         x0 = x0Temp
-#     print(x0)
-
-#     # do the fit
-#     xFitted,\
-#     optLandmarkDist,\
-#     optLandmarkRMSE,\
-#     fitInfo = lowerlimbatlasfitscaling.fit(
-#                     lldata.LL,
-#                     lldata.target_landmarks,
-#                     lldata.landmark_names,
-#                     bones_to_scale='uniform',
-#                     x0=x0,
-#                     minimise_args=lldata.minArgs,
-#                     # callback=callback,
-#                     )
-#     lldata.landmarkRMSE = optLandmarkRMSE
-#     lldata.landmarkErrors = optLandmarkDist
-#     lldata.fitMDist = -1.0
-#     lldata.T.uniformScalingX = xFitted[-1]
-#     print('new X:'+str(lldata.T.uniformScalingX))
-#     return xFitted, optLandmarkDist, optLandmarkRMSE, fitInfo
-
-# def _registerPerBoneScaling(lldata, callback=None):
-
-#     # if lladata.T.perboneScalingX has not changed from the default,
-#     # use None for x0 so that it is automatically calculated
-#     x0Temp = lldata.T.perBoneScalingX
-#     if np.all(x0Temp[:4]==1.0) and np.all(x0Temp[4:]==0.0):
-#         x0 = None
-#     else:
-#         x0 = x0Temp
-#     print(x0)
-#     bones = ('pelvis', 'femur', 'patella', 'tibiafibula')
-#     xFitted,\
-#     optLandmarkDist,\
-#     optLandmarkRMSE,\
-#     fitInfo = lowerlimbatlasfitscaling.fit(
-#                     lldata.LL,
-#                     lldata.target_landmarks,
-#                     lldata.landmark_names,
-#                     bones_to_scale=bones,
-#                     x0=x0,
-#                     minimise_args=lldata.minArgs,
-#                     # callback=callback,
-#                     )
-#     lldata.landmarkRMSE = optLandmarkRMSE
-#     lldata.landmarkErrors = optLandmarkDist
-#     lldata.fitMDist = -1.0
-#     lldata.T.perBoneScalingX = xFitted[-1]
-#     print('new X:'+str(lldata.T.perBoneScalingX))
-#     return xFitted, optLandmarkDist, optLandmarkRMSE, fitInfo

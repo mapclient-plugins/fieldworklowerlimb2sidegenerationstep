@@ -442,7 +442,6 @@ class LowerLimbGenerationDialog(QDialog):
     def _manual_reg_update(self):
         if not self._lockManualRegUpdate:
             self._save_configs()
-            # self.data.update_ll_model() # LL is auto updated in _save_configs
             self._update_scene_models()
 
     def _auto_reg_changed(self):
