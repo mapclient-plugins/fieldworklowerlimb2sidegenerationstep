@@ -3,7 +3,8 @@ Auto lower limb registration
 """
 import os
 import numpy as np
-import copy
+
+import musculoskeletal.models as mm
 
 from gias3.musculoskeletal import mocap_landmark_preprocess
 from gias3.musculoskeletal.bonemodels import lowerlimbatlasfit2side
@@ -65,7 +66,7 @@ TIBFIB_BASISTYPES = {'tri10': 'simplex_L3_L3', 'quad44': 'quad_L3_L3'}
 
 
 class LLStepData(object):
-    _shapeModelFilenameRight = os.path.join(SELF_DIRECTORY, 'data/shape_models/LLP26_right_mirrored_from_left_rigid.pc')
+    _shapeModelFilenameRight = mm.get_model_path("shape_models/LLP26_right_mirrored_from_left_rigid.pc")
     _boneModelFilenamesRight = {
         'pelvis': (
             os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
@@ -88,7 +89,7 @@ class LLStepData(object):
             os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
         ),
     }
-    _shapeModelFilenameLeft = os.path.join(SELF_DIRECTORY, 'data/shape_models/LLP26_rigid.pc')
+    _shapeModelFilenameLeft = mm.get_model_path("shape_models/LLP26_rigid.pc")
     _boneModelFilenamesLeft = {
         'pelvis': (
             os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
