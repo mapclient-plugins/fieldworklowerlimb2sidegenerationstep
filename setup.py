@@ -37,6 +37,7 @@ package_dependencies = [
     "gias3.mapclientpluginutilities",
     "gias3.fieldwork",
     "gias3.musculoskeletal",
+    "musculoskeletal-models",
     "PySide6"
 ]
 package_data = {
