@@ -40,12 +40,6 @@ package_dependencies = [
     "musculoskeletal-models",
     "PySide6"
 ]
-package_data = {
-    'mapclientplugins.fieldworklowerlimb2sidegenerationstep': [
-        'data/atlas_meshes/*',
-        'data/shape_models/*',
-    ],
-}
 
 setup(
     name=u'mapclientplugins.fieldworklowerlimb2sidegenerationstep',

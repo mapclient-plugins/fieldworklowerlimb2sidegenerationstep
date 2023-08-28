@@ -69,47 +69,47 @@ class LLStepData(object):
     _shapeModelFilenameRight = mm.get_model_path("shape_models/LLP26_right_mirrored_from_left_rigid.pc")
     _boneModelFilenamesRight = {
         'pelvis': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
+            mm.get_model_path('atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/pelvis_combined_cubic_flat.ens'),
+            mm.get_model_path('atlas_meshes/pelvis_combined_cubic_flat.mesh'),
         ),
         'femur': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_right_quartic_flat.mesh'),
+            mm.get_model_path('atlas_meshes/femur_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/femur_right_quartic_flat.ens'),
+            mm.get_model_path('atlas_meshes/femur_right_quartic_flat.mesh'),
         ),
         'patella': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_right.mesh'),
+            mm.get_model_path('atlas_meshes/patella_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/patella_11_right.ens'),
+            mm.get_model_path('atlas_meshes/patella_11_right.mesh'),
         ),
         'tibiafibula': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_right_mirrored_from_left_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
+            mm.get_model_path('atlas_meshes/tibia_fibula_cubic_right_mirrored_from_left_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/tibia_fibula_right_cubic_flat.ens'),
+            mm.get_model_path('atlas_meshes/tibia_fibula_right_cubic_flat.mesh'),
         ),
     }
     _shapeModelFilenameLeft = mm.get_model_path("shape_models/LLP26_rigid.pc")
     _boneModelFilenamesLeft = {
         'pelvis': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/pelvis_combined_cubic_flat.mesh'),
+            mm.get_model_path('atlas_meshes/pelvis_combined_cubic_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/pelvis_combined_cubic_flat.ens'),
+            mm.get_model_path('atlas_meshes/pelvis_combined_cubic_flat.mesh'),
         ),
         'femur': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/femur_left_quartic_flat.mesh'),
+            mm.get_model_path('atlas_meshes/femur_left_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/femur_left_quartic_flat.ens'),
+            mm.get_model_path('atlas_meshes/femur_left_quartic_flat.mesh'),
         ),
         'patella': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_left_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/patella_11_left.mesh'),
+            mm.get_model_path('atlas_meshes/patella_left_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/patella_11_left.ens'),
+            mm.get_model_path('atlas_meshes/patella_11_left.mesh'),
         ),
         'tibiafibula': (
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_cubic_left_mean_rigid_LLP26.geof'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.ens'),
-            os.path.join(SELF_DIRECTORY, 'data/atlas_meshes/tibia_fibula_left_cubic_flat.mesh'),
+            mm.get_model_path('atlas_meshes/tibia_fibula_cubic_left_mean_rigid_LLP26.geof'),
+            mm.get_model_path('atlas_meshes/tibia_fibula_left_cubic_flat.ens'),
+            mm.get_model_path('atlas_meshes/tibia_fibula_left_cubic_flat.mesh'),
         ),
     }
     _validRegistrationModes = ('shapemodel',)
